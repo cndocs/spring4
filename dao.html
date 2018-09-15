@@ -1,0 +1,82 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>12.&nbsp;DAO &#25903;&#25345;</title><link rel="stylesheet" type="text/css" href="css/manual-multipage.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index.html" title="Spring Framework Reference Documentation"><link rel="up" href="spring-data-tier.html" title="Part&nbsp;IV.&nbsp;&#25968;&#25454;&#35775;&#38382;"><link rel="prev" href="transaction.html" title="11.&nbsp;&#20107;&#21153;&#31649;&#29702;"><link rel="next" href="jdbc.html" title="13.&nbsp;Data access with JDBC"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">12.&nbsp;DAO &#25903;&#25345;</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="transaction.html">Prev</a>&nbsp;</td><th width="60%" align="center">Part&nbsp;IV.&nbsp;&#25968;&#25454;&#35775;&#38382;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="jdbc.html">Next</a></td></tr></table><hr></div><div class="chapter"><div class="titlepage"><div><div><h2 class="title"><a name="dao" href="#dao"></a>12.&nbsp;DAO &#25903;&#25345;</h2></div></div></div>
+
+<div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="dao-introduction" href="#dao-introduction"></a>12.1&nbsp;&#20171;&#32461;</h2></div></div></div>
+
+<p>Spring&#20013;&#23545;&#25968;&#25454;&#35775;&#38382;&#23545;&#35937;(DAO)&#30340;&#25903;&#25345;&#26088;&#22312;&#31616;&#21270;Spring&#19982;&#25968;&#25454;&#35775;&#38382;&#25216;&#26415;&#30340;&#25805;&#20316;&#65292;&#20351;JDBC&#12289;Hibernate&#12289;JPA&#21644;JDO&#31561;&#37319;&#29992;&#32479;&#19968;&#30340;&#26041;&#24335;&#35775;&#38382;&#12290;
+&#36825;&#23601;&#20801;&#35768;&#20351;&#29992;&#32773;&#22312;&#21508;&#31181;&#25345;&#20037;&#21270;&#25216;&#26415;&#20043;&#38388;&#33021;&#22815;&#30456;&#23545;&#36731;&#26494;&#30340;&#36827;&#34892;&#20999;&#25442;&#65292;&#21516;&#26102;&#65292;&#20351;&#29992;&#32773;&#20063;&#19981;&#24517;&#25285;&#24515;&#27599;&#31181;&#19981;&#21516;&#25216;&#26415;&#36896;&#25104;&#30340;&#24322;&#24120;&#22788;&#29702;&#30340;&#24046;&#24322;&#12290;</p>
+</div>
+<div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="dao-exceptions" href="#dao-exceptions"></a>12.2&nbsp;&#19968;&#33268;&#30340;&#24322;&#24120;&#23618;&#27425;&#32467;&#26500;</h2></div></div></div>
+
+<p>Spring&#25552;&#20379;&#20102;&#19968;&#20010;&#26041;&#20415;&#22320;&#20174;&#29305;&#23450;&#25216;&#26415;&#24322;&#24120;&#65288;&#22914;<code class="literal">SQLException</code>&#65289;&#36716;&#25442;&#20026;&#20197;<code class="literal">DataAccessException</code>&#20316;&#20026;&#26681;&#24322;&#24120;&#30340;&#33258;&#36523;&#24322;&#24120;&#23618;&#27425;&#32467;&#26500;&#20013;&#30340;&#31867;&#12290;
+&#24322;&#24120;&#23618;&#27425;&#32467;&#26500;&#20013;&#30340;&#31867;&#23558;&#21407;&#22987;&#24322;&#24120;&#36827;&#34892;&#20102;&#21253;&#35013;&#65292;&#25152;&#20197;&#65292;&#25105;&#20204;&#19981;&#29992;&#25285;&#24515;&#21457;&#29983;&#38169;&#35823;&#21518;&#24322;&#24120;&#20449;&#24687;&#20002;&#22833;&#30340;&#38382;&#39064;&#12290;</p>
+<p>&#38500;&#20102;JDBC&#24322;&#24120;&#20197;&#22806;&#65292;Spring&#20063;&#21487;&#20197;&#21253;&#35013;&#29305;&#23450;&#30340;Hibernate&#24322;&#24120;&#65292;&#21487;&#20197;&#23558;&#25152;&#26377;&#30340;checked&#24322;&#24120;&#65288;&#25903;&#25345;Hibernate 3.0&#20197;&#21069;&#30340;&#29256;&#26412;&#65289;&#36716;&#25442;&#20026;
+&#19968;&#32452;&#38598;&#20013;&#30340;&#36816;&#34892;&#26102;&#24322;&#24120;&#65292;JDO&#21644;JPA&#24322;&#24120;&#20063;&#21487;&#20197;&#21516;&#26679;&#21253;&#35013;&#12290;&#36825;&#23601;&#20801;&#35768;&#20351;&#29992;&#32773;&#19981;&#24517;&#22312;DAO&#20013;&#20889;&#22823;&#37327;&#30340;&#28902;&#20154;&#30340;&#27515;&#26495;&#30340;catch&#21644;throw&#35821;&#21477;&#20197;&#21450;&#23545;
+&#24212;&#30340;&#24322;&#24120;&#22768;&#26126; &#65292;&#23601;&#21487;&#20197;&#22788;&#29702;&#32477;&#22823;&#22810;&#25968;&#19981;&#21487;&#24674;&#22797;&#30340;&#21482;&#33021;&#22312;&#29305;&#23450;&#23618;&#22788;&#29702;&#30340;&#25345;&#20037;&#21270;&#24322;&#24120;&#12290;&#65288;&#20351;&#29992;&#32773;&#20063;&#36824;&#21487;&#20197;&#20877;&#38656;&#35201;&#30340;&#22320;&#26041;&#25429;&#33719;&#21644;&#22788;&#29702;&#24322;&#24120;&#12290;&#65289;
+&#22914;&#19978;&#25152;&#36848;&#65292;JDBC&#24322;&#24120;&#65288;&#21253;&#25324;&#29305;&#23450;&#30340;&#25968;&#25454;&#24211;&#26041;&#35328;&#65289;&#20063;&#20250;&#36716;&#25442;&#20026;&#21516;&#26679;&#30340;&#32423;&#21035;&#65292;&#36825;&#23601;&#24847;&#21619;&#30528;&#20351;&#29992;&#32773;&#21487;&#20197;&#20351;&#29992;&#19968;&#20010;&#19968;&#33268;&#30340;&#32534;&#31243;&#27169;&#22411;&#26469;&#20351;&#29992;JDBC&#12290;</p>
+<p>Spring&#25903;&#25345;&#30340;&#21508;&#31181;ORM&#26694;&#26550;&#30340;&#27169;&#26495;&#31867;&#37117;&#25903;&#25345;&#19978;&#38754;&#30340;&#29305;&#24615;&#12290;&#22914;&#26524;&#20351;&#29992;&#32773;&#22522;&#20110;&#25318;&#25130;&#22120;&#30340;&#31867;&#65292;&#37027;&#20040;&#31243;&#24207;&#24517;&#39035;&#20851;&#24515;&#22914;&#20309;&#22788;&#29702;<code class="literal">HibernateExceptions</code> &#21644;<code class="literal">JDOExceptions</code>&#24322;&#24120;,
+&#26368;&#22909;&#26159;&#20998;&#21035;&#22996;&#25176;&#32473;<code class="literal">SessionFactoryUtils</code>&#30340;<code class="literal">convertHibernateAccessException(..)</code>&#25110;<code class="literal">convertJdoAccessException()</code>&#26041;&#27861;&#12290;&#36825;&#20004;&#20010;&#26041;&#27861;&#21487;&#20197;&#23558;&#24322;&#24120;&#36716;&#25442;&#20026;&#19982;
+<code class="literal">org.springframework.dao</code>&#24322;&#24120;&#23618;&#27425;&#32467;&#26500;&#30456;&#20860;&#23481;&#30340;&#24322;&#24120;&#31867;&#12290;&#23601;&#24322;&#24120;&#32780;&#35328;&#65292;&#34429;&#28982;&#29306;&#29298;&#20102;&#36890;&#29992;&#30340;DAO&#25277;&#35937;&#29305;&#24615;&#65292;&#20294;&#22240;&#20026;<code class="literal">JDOExceptions</code>&#24322;&#24120;&#26159;unchecked&#65292;&#23427;&#20204;&#20063;&#21487;&#20197;&#34987;&#31616;&#21333;&#30340;&#25243;&#20986;&#12290;
+Spring&#25552;&#20379;&#30340;&#24322;&#24120;&#23618;&#27425;&#32467;&#26500;&#22914;&#19979;&#22270;&#25152;&#31034;&#12290;&#65288;&#35831;&#27880;&#24847;&#22270;&#20013;&#30340;&#31867;&#23618;&#27425;&#32467;&#26500;&#21482;&#26159;&#25972;&#20010;<code class="literal">DataAccessException</code>&#30340;&#19968;&#20010;&#23376;&#38598;&#12290;&#65289;</p>
+<div class="figure"><a name="d5e11607" href="#d5e11607"></a><p class="title"><b>Figure&nbsp;12.1.&nbsp;</b></p><div class="figure-contents">
+  <div class="mediaobject"><img src="images/DataAccessException.gif" alt="DataAccessException"></div>
+</div></div><br class="figure-break">
+
+</div>
+<div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="dao-annotations" href="#dao-annotations"></a>12.3&nbsp;&#29992;&#20110;&#37197;&#32622;DAO&#25110;&#24211;&#31867;&#30340;&#27880;&#35299;</h2></div></div></div>
+
+<p>&#30830;&#20445;&#33258;&#23450;&#20041;&#30340;&#25968;&#25454;&#35775;&#38382;&#23545;&#35937;&#65288;DAO&#65289;&#25110;&#24211;&#31867;&#25552;&#20379;&#30340;&#24322;&#24120;&#36716;&#25442;&#30340;&#26368;&#22909;&#26041;&#27861;&#23601;&#26159;&#20351;&#29992;<code class="literal">@Repository</code>&#27880;&#35299;&#12290;&#36825;&#19968;&#27880;&#35299;&#21516;&#26679;&#20801;&#35768;&#32452;&#20214;&#25195;&#25551;&#26469;&#21457;&#29616;&#21644;&#37197;&#32622;&#33258;&#23450;&#20041;DAO&#21644;&#24211;&#65292;&#32780;&#19981;&#29992;&#25552;&#20379;XML&#37197;&#32622;&#20449;&#24687;&#12290;</p>
+<pre class="programlisting"><span class="strong"><strong>@Repository</strong></span>
+<span class="hl-keyword">public</span> <span class="hl-keyword">class</span> SomeMovieFinder <span class="hl-keyword">implements</span> MovieFinder {
+    <span class="hl-comment">// ...</span>
+}</pre>
+
+<p>&#20219;&#20309;DAO&#25110;&#32773;&#24211;&#23454;&#29616;&#37117;&#20381;&#36182;&#25152;&#20351;&#29992;&#30340;&#25345;&#20037;&#21270;&#25216;&#26415;&#26469;&#38656;&#35201;&#35775;&#38382;&#26576;&#20010;&#25345;&#20037;&#21270;&#36164;&#28304;&#65307;&#20363;&#22914;&#65292;&#19968;&#20010;&#22522;&#20110;JDBC&#30340;&#24211;&#38656;&#35201;&#35775;&#38382;&#19968;&#20010;JDBC&#25968;&#25454;&#28304;<code class="literal">DataSource</code>&#65307;&#19968;&#20010;&#22522;&#20110;JPA&#30340;&#24211;&#38656;&#35201;&#35775;&#38382;&#19968;&#20010;<code class="literal">EntityManager</code>&#12290;
+&#23436;&#25104;&#36825;&#19968;&#25805;&#20316;&#30340;&#26368;&#31616;&#21333;&#30340;&#26041;&#24335;&#20351;&#29992;<code class="literal">@Autowired,</code>, <code class="literal">@Inject</code>, <code class="literal">@Resource</code> &#25110;<code class="literal">@PersistenceContext</code>&#31561;&#36825;&#26679;&#30340;&#36164;&#28304;&#20381;&#36182;&#27880;&#20837;&#30340;&#27880;&#35299;&#12290;&#19979;&#38754;&#26377;&#19968;&#20010;JPA&#24211;&#30340;&#20363;&#23376;&#65306;</p>
+<pre class="programlisting"><em><span class="hl-annotation" style="color: gray">@Repository</span></em>
+<span class="hl-keyword">public</span> <span class="hl-keyword">class</span> JpaMovieFinder <span class="hl-keyword">implements</span> MovieFinder {
+
+    <em><span class="hl-annotation" style="color: gray">@PersistenceContext</span></em>
+    <span class="hl-keyword">private</span> EntityManager entityManager;
+
+    <span class="hl-comment">// ...</span>
+
+}</pre>
+
+<p>&#22914;&#26524;&#20320;&#20351;&#29992;&#20102;&#32463;&#20856;Hibernate&#30340;API&#65292;&#37027;&#20040;&#23601;&#21487;&#20197;&#27880;&#20837;SessionFactory&#65306;</p>
+<pre class="programlisting"><em><span class="hl-annotation" style="color: gray">@Repository</span></em>
+<span class="hl-keyword">public</span> <span class="hl-keyword">class</span> HibernateMovieFinder <span class="hl-keyword">implements</span> MovieFinder {
+
+    <span class="hl-keyword">private</span> SessionFactory sessionFactory;
+
+    <em><span class="hl-annotation" style="color: gray">@Autowired</span></em>
+    <span class="hl-keyword">public</span> <span class="hl-keyword">void</span> setSessionFactory(SessionFactory sessionFactory) {
+        <span class="hl-keyword">this</span>.sessionFactory = sessionFactory;
+    }
+
+    <span class="hl-comment">// ...</span>
+
+}</pre>
+
+<p>&#22312;&#26368;&#21518;&#19968;&#20010;&#20363;&#23376;&#20013;&#65292;&#25105;&#20204;&#23558;&#20171;&#32461;&#23545;&#20856;&#22411;JDBC&#30340;&#25903;&#25345;&#12290;&#20320;&#21487;&#20197;&#23558;<code class="literal">DataSource</code>&#27880;&#20837;&#21040;&#24050;&#21019;&#24314;&#30340;<code class="literal">JdbcTemplate</code>&#30340;&#21021;&#22987;&#21270;&#26041;&#27861;&#20013;&#65292;&#28982;&#21518;&#20854;&#20182;&#25968;&#25454;&#35775;&#38382;&#25903;&#25345;&#31867;&#65288;&#22914;<code class="literal">SimpleJdbcCall</code> &#31561;&#65289;&#23601;&#21487;&#20197;&#20351;&#29992;&#36825;&#20010;&#25968;&#25454;&#28304;<code class="literal">DataSource</code>&#20102;&#12290;</p>
+<pre class="programlisting"><em><span class="hl-annotation" style="color: gray">@Repository</span></em>
+<span class="hl-keyword">public</span> <span class="hl-keyword">class</span> JdbcMovieFinder <span class="hl-keyword">implements</span> MovieFinder {
+
+    <span class="hl-keyword">private</span> JdbcTemplate jdbcTemplate;
+
+    <em><span class="hl-annotation" style="color: gray">@Autowired</span></em>
+    <span class="hl-keyword">public</span> <span class="hl-keyword">void</span> init(DataSource dataSource) {
+        <span class="hl-keyword">this</span>.jdbcTemplate = <span class="hl-keyword">new</span> JdbcTemplate(dataSource);
+    }
+
+    <span class="hl-comment">// ...</span>
+
+}</pre>
+
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/note.png"></td><th align="left">Note</th></tr><tr><td align="left" valign="top">
+<p>&#35201;&#24819;&#35814;&#32454;&#20102;&#35299;&#22914;&#20309;&#37197;&#32622;&#31243;&#24207;&#30340;&#19978;&#19979;&#25991;&#25165;&#33021;&#21457;&#25381;&#36825;&#20123;&#27880;&#35299;&#30340;&#20248;&#21183;&#65292;&#35831;&#21442;&#38405;&#27599;&#31181;&#25345;&#20037;&#21270;&#25216;&#26415;&#30340;&#20855;&#20307;&#30340;&#30333;&#30382;&#20070;&#12290;</p>
+</td></tr></table></div>
+
+</div>
+</div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="transaction.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="spring-data-tier.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="jdbc.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">11.&nbsp;&#20107;&#21153;&#31649;&#29702;&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;13.&nbsp;Data access with JDBC</td></tr></table></div></body></html>

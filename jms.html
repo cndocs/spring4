@@ -1,0 +1,902 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>23.&nbsp;JMS (Java&#28040;&#24687;&#26381;&#21153; )</title><link rel="stylesheet" type="text/css" href="css/manual-multipage.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index.html" title="Spring Framework Reference Documentation"><link rel="up" href="spring-integration.html" title="Part&nbsp;VI.&nbsp;Integration"><link rel="prev" href="ejb.html" title="22.&nbsp;Enterprise JavaBeans (EJB) integration"><link rel="next" href="jmx.html" title="24.&nbsp;JMX"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">23.&nbsp;JMS (Java&#28040;&#24687;&#26381;&#21153; )</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ejb.html">Prev</a>&nbsp;</td><th width="60%" align="center">Part&nbsp;VI.&nbsp;Integration</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="jmx.html">Next</a></td></tr></table><hr></div><div class="chapter"><div class="titlepage"><div><div><h2 class="title"><a name="jms" href="#jms"></a>23.&nbsp;JMS (Java&#28040;&#24687;&#26381;&#21153; )</h2></div></div></div>
+
+<div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="jms-introduction" href="#jms-introduction"></a>23.1&nbsp;&#20171;&#32461;</h2></div></div></div>
+
+<p>Spring&#25972;&#21512;JMS&#65292;&#23601;&#20687;&#23545;JDBC API&#30340;&#25972;&#21512;&#19968;&#26679;&#65292;&#31616;&#21270;&#20102; JMS API&#30340;&#20351;&#29992;&#12290;JMS&#22823;&#27010;&#21487;&#20197;&#20998;&#20026;&#20004;&#20010;&#21151;&#33021;&#21306;&#65292;&#28040;&#24687;&#29983;&#20135;&#21644;&#28040;&#36153;&#12290;
+<code class="literal">JmsTemplate</code>&#31867;&#29992;&#20110;&#28040;&#24687;&#29983;&#20135;&#21644;&#21516;&#27493;&#28040;&#24687;&#30340;&#25509;&#25910;&#12290;&#23545;&#20110;&#24322;&#27493;&#28040;&#24687;&#30340;&#25509;&#25910;&#19982;Java EE&#30340;&#28040;&#24687;&#39537;&#21160;bean&#39118;&#26684;&#30456;&#20284;&#65292;Spring&#25552;
+&#20379;&#22823;&#37327;&#30340;&#28040;&#24687;&#30417;&#21548;&#23481;&#22120;&#29992;&#20110;&#21019;&#24314;&#28040;&#24687;&#39537;&#21160;POJOs(MDPs)&#12290;Spring&#20063;&#25903;&#25345;&#22768;&#26126;&#24335;&#26041;&#24335;&#21019;&#24314;&#28040;&#24687;&#30417;&#21548;&#12290;
+<code class="literal">org.springframework.jms.core</code>&#21253;&#25552;&#20379;&#20102;&#20351;&#29992;JMS&#30340;&#26680;&#24515;&#21151;&#33021;&#12290;&#23427;&#21253;&#21547;&#20102;JMS&#27169;&#26495;&#31867;&#65292;&#36890;&#36807;&#22788;&#29702;&#36164;&#28304;&#30340;&#21019;&#24314;&#21644;&#37322;&#25918;&#65292;&#31616;&#21270;
+&#20102;JMS&#30340;&#20351;&#29992;&#65292;&#26356;&#20687;&#26159;<code class="literal">JdbcTemplate</code>&#31867;&#20026;JDBC&#25152;&#20570;&#30340;&#12290;Spring&#27169;&#26495;&#31867;&#20849;&#21516;&#30340;&#35774;&#35745;&#20934;&#21017;&#26159;&#25552;&#20379;&#24110;&#21161;&#22120;&#26041;&#27861;&#25191;&#34892;&#36890;&#29992;&#30340;&#25805;&#20316;&#21644;&#26356;
+&#22797;&#26434;&#30340;&#20351;&#29992;&#65292;&#23558;&#22788;&#29702;&#20219;&#21153;&#30340;&#26412;&#36136;&#22996;&#25176;&#32473;&#23454;&#29616;&#22238;&#35843;&#25509;&#21475;&#30340;&#29992;&#25143;&#12290;JMS&#27169;&#26495;&#36981;&#24490;&#21516;&#26679;&#30340;&#35774;&#35745;&#20934;&#21017;&#65292;&#25552;&#20379;&#20102;&#22810;&#31181;&#26041;&#20415;&#30340;&#26041;&#27861;&#29992;&#20110;&#21457;&#36865;&#28040;&#24687;&#65292;&#24322;
+&#27493;&#25509;&#25910;&#28040;&#24687;&#65292;&#36824;&#25552;&#20379;JMS&#20250;&#35805;&#21644;&#28040;&#24687;&#29983;&#20135;&#32773;&#32473;&#29992;&#25143;&#12290;<code class="literal">org.springframework.jms.support</code>&#21253;&#25552;&#20379;&#20102;<code class="literal">JMSException</code>&#30340;
+&#36716;&#25442;&#21151;&#33021;&#65292;&#23558;&#21463;&#26816;&#26597;&#30340;<code class="literal">JMSException</code>&#23618;&#36716;&#25442;&#21040;&#19981;&#21463;&#26816;&#26597;&#24322;&#24120;&#30340;&#38236;&#20687;&#23618;&#12290;&#22914;&#26524;&#26377;&#19968;&#20010;&#21463;&#26816;&#26597;&#30340;<code class="literal">javax.jms.JMSException</code>
+&#31867;&#30340;&#23376;&#31867;&#65292;&#36825;&#20010;&#23376;&#31867;&#24322;&#24120;&#34987;&#23553;&#35013;&#21040;&#20102;&#19981;&#21463;&#26816;&#26597;&#30340;<code class="literal">UncategorizedJmsException</code>&#24322;&#24120;&#20013;&#12290;
+<code class="literal">org.springframework.jms.support.converter</code>&#21253;&#25552;&#20379;&#19968;&#20010; <code class="literal">MessageConverter</code>&#25277;&#35937;&#23618;&#29992;&#20110;Java&#23545;&#35937; &#21644; JMS&#28040;
+&#24687;&#38388;&#30340;&#30456;&#20114;&#36716;&#25442;&#12290;
+<code class="literal">org.springframework.jms.support.destination</code>&#21253;&#25552;&#20379;&#22810;&#31181;&#31574;&#30053;&#31649;&#29702;JMS&#30446;&#30340;&#22320;&#65292;&#22914;&#20026;&#23384;&#20648;&#22312;JNDI&#30340;&#30446;&#30340;&#22320;&#25552;&#20379;&#23450;&#20301;&#22120;&#12290;
+<code class="literal">org.springframework.jms.annotation</code>&#21253;&#25552;&#20379;&#24517;&#35201;&#30340;&#22522;&#30784;&#25903;&#25345;&#20351;&#29992;<code class="literal">@JmsListener</code>&#27880;&#35299;&#39537;&#21160;&#30340;&#31471;&#28857;&#20390;&#21548;&#22120;&#12290;
+<code class="literal">org.springframework.jms.config</code>&#21253;&#25552;&#20379;&#35299;&#26512;&#22120;&#23454;&#29616;<code class="literal">jms</code>&#21629;&#21517;&#31354;&#38388;&#20197;&#21450;java&#37197;&#32622;&#25903;&#25345;&#30417;&#21548;&#22120;&#23481;&#22120;&#37197;&#32622;&#21644;&#21019;&#24314;&#30417;&#21548;&#22120;&#31471;&#12290;
+&#26368;&#21518;&#65292; <code class="literal">org.springframework.jms.connection</code>&#21253;&#25552;&#20379;&#20102;<code class="literal">ConnectionFactory</code>&#25509;&#21475;&#30340;&#23454;&#29616;&#65292;&#36866;&#21512;&#29992;&#22312;&#29420;&#31435;&#30340;&#24212;&#29992;&#31243;&#24207;&#20013;&#12290;
+&#23427;&#20063; &#21253;&#21547;Spring&#30340;<code class="literal">PlatformTransactionManager</code>&#25509;&#21475;&#23454;&#29616;&#65292;JMS&#27169;&#22359;&#20013;&#24403;&#21069;&#34987;&#21629;&#21517;&#20026;<code class="literal">JmsTransactionManager</code>&#12290;&#36825;&#20351;&#24471;
+JMS&#20316;&#20026;&#19968;&#31181;&#20107;&#21153;&#24615;&#36164;&#28304;&#26080;&#32541;&#38598;&#25104;&#21040;Spring&#30340;&#20107;&#21153;&#31649;&#29702;&#26426;&#21046;&#20013;&#26469;&#12290;</p>
+</div>
+<div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="jms-using" href="#jms-using"></a>23.2&nbsp;&#20351;&#29992; Spring JMS</h2></div></div></div>
+
+<div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="jms-jmstemplate" href="#jms-jmstemplate"></a>23.2.1&nbsp;JmsTemplate&#31867;</h3></div></div></div>
+
+<p><code class="literal">JmsTemplate</code>&#31867;&#26159;JMS&#26680;&#24515;&#21253;&#20013;&#30340;&#20013;&#24515;&#31867;&#65292;&#23427;&#31616;&#21270;&#20102;JMS&#30340;&#20351;&#29992;&#65292;&#22240;&#20026;&#24403;&#21457;&#36865;&#28040;&#24687;&#25110;&#32773;&#21516;&#27493;&#25509;&#25910;&#28040;&#24687;&#30340;&#26102;&#20505;&#65292;&#23427;&#22788;&#29702;&#36164;&#28304;&#30340;&#21019;&#24314;&#21644;&#37322;&#25918;&#12290;</p>
+<p>&#20195;&#30721;&#20351;&#29992;<code class="literal">JmsTemplate</code>&#20165;&#20165;&#38656;&#35201;&#23454;&#29616;&#22238;&#35843;&#25509;&#21475;&#65292;&#32473;&#20182;&#20204;&#19968;&#20010;&#21313;&#20998;&#28165;&#26224;&#30340;&#39640;&#23618;&#27425;&#30340;&#32422;&#23450;&#12290;<code class="literal">MessageCreator</code>&#22238;&#35843;&#25509;&#21475;&#36890;&#36807;&#35843;&#29992;<code class="literal">JmsTemplate</code>
+&#31867;&#20013;&#30340;&#20195;&#30721;&#25552;&#20379;<code class="literal">Session</code>&#65292;&#21019;&#24314;&#19968;&#21017;&#28040;&#24687;&#12290;&#20026;&#20102;&#20801;&#35768;JMS API&#26356;&#22797;&#26434;&#30340;&#20351;&#29992;&#65292;&#22238;&#35843;&#25509;&#21475;<code class="literal">SessionCallback</code>&#25552;&#20379;&#32473;&#29992;&#25143;&#20351;&#29992;JMS session&#65292;
+<code class="literal">ProducerCallback</code>&#25552;&#20379;&#32473;&#29992;&#25143;&#25104;&#23545;&#30340;<code class="literal">Session</code>&#21644;<code class="literal">MessageProducer</code>&#12290;</p>
+<p>JMS API&#25552;&#20379;&#20004;&#31181;&#31867;&#22411;&#30340;&#21457;&#36865;&#26041;&#27861;&#65292;&#19968;&#31181;&#20351;&#29992;&#20256;&#36882;&#27169;&#24335;&#12289;&#20248;&#20808;&#32423;&#12289;&#23384;&#27963;&#26102;&#38388;&#20219;&#21153;&#26381;&#21153;&#36136;&#37327;&#21442;&#25968;&#65292;&#21035;&#19968;&#31181;&#27809;&#26377;&#20351;&#29992;&#26381;&#21153;&#36136;&#37327;&#21442;&#25968;&#32780;&#20351;&#29992;&#40664;&#35748;&#20540;&#12290;&#22240;&#20026;&#22312;
+<code class="literal">JmsTemplate</code>&#26377;&#35768;&#22810;&#21457;&#36865;&#26041;&#27861;&#65292;&#26292;&#38706;&#20986;&#30340;bean&#23646;&#24615;&#23545;&#24212;QOS&#65288;Quarity of Service&#65289;&#21442;&#25968;&#30340;&#35774;&#32622;&#36991;&#20813;&#20102;&#22823;&#37327;&#21457;&#36865;&#26041;&#27861;&#30340;&#37325;&#22797;&#12290;&#21516;&#26679;&#22320;&#65292;&#24322;&#27493;&#25509;&#25910;&#26041;&#27861;&#20351;&#29992;&#23646;&#24615;<code class="literal">setReceiveTimeout</code>
+&#35774;&#32622;&#36229;&#26102;&#20540;&#12290;</p>
+<p>&#19968;&#20123;JMS&#25552;&#20379;&#32773;&#36890;&#36807;&#37197;&#32622;<code class="literal">ConnectionFactory</code>&#65292;&#31649;&#29702;&#26041;&#24335;&#19978;&#20801;&#35768;&#40664;&#35748;&#30340;QOS&#20540;&#30340;&#35774;&#32622;&#12290;<code class="literal">MessageProducer</code>&#30340;&#21457;&#36865;&#26041;&#27861; <code class="literal">send(Destination destination, Message message)</code>
+&#22312;&#37027;&#20123;&#19987;&#26377;&#30340;JMS&#20013;&#23558;&#20250;&#20351;&#29992;&#19981;&#19968;&#26679;&#30340;QOS&#40664;&#35748;&#20540;&#12290;&#20026;&#20102;&#25552;&#20379;&#23545;QOS&#20540;&#19968;&#33268;&#30340;&#31649;&#29702;&#65292;<code class="literal">JmsTemplate</code>&#22240;&#27492;&#24517;&#39035;&#35774;&#32622;&#23646;&#24615;<code class="literal">isExplicitQosEnabled</code>&#20026;<code class="literal">true</code>&#26126;&#30830;&#30340;&#25351;&#23450;&#20351;&#29992;&#40664;&#35748;&#30340;QOS&#20540;&#12290;</p>
+<p>&#20026;&#20102;&#26041;&#20415;&#65292;<code class="literal">JmsTemplate</code>&#20063;&#25552;&#20379;&#19968;&#20010;&#22522;&#26412;&#30340;&#35831;&#27714;&#21709;&#24212;&#25805;&#20316;&#65292;&#20801;&#35768;&#22312;&#19968;&#20010;&#25805;&#20316;&#37096;&#20998;&#25152;&#21019;&#24314;&#30340;&#20020;&#26102;&#38431;&#21015;&#20013;&#21457;&#36865;&#28040;&#24687;&#24182;&#31561;&#24453;&#22238;&#22797;&#12290;</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/note.png"></td><th align="left">Note</th></tr><tr><td align="left" valign="top">
+<p>&#19968;&#26086;&#34987;&#37197;&#32622;<code class="literal">JmsTemplate</code>&#31867;&#23454;&#20363;&#26159;&#32447;&#31243;&#23433;&#20840;&#30340;&#12290;&#36825;&#26159;&#24456;&#37325;&#35201;&#30340;&#65292;&#22240;&#20026;&#36825;&#24847;&#21619;&#30528;&#20320;&#21487;&#20197;&#37197;&#32622;<code class="literal">JmsTemplate</code>&#30340;&#21333;&#20363;&#24182;&#19988;&#25226;&#23427;&#23433;&#20840;&#27880;&#20837;&#21040;&#22810;&#20010;&#21327;&#20316;&#20013;&#12290;
+&#35201;&#26126;&#30830;&#30340;&#26159;&#65292; <code class="literal">JmsTemplate</code>&#26159;&#26377;&#29366;&#24577;&#30340;&#65292;&#23427;&#32500;&#25345;&#30528;&#23545;<code class="literal">ConnectionFactory</code>&#30340;&#24341;&#29992;&#65292;&#20294;&#36825;&#31181;&#29366;&#24577;&#19981;&#26159;&#20250;&#35805;&#29366;&#24577;&#12290;</p>
+</td></tr></table></div>
+
+<p>&#20174;Spring&#26694;&#26550;4.1&#24320;&#22987;&#65292;<code class="literal">JmsMessagingTemplate</code>&#26500;&#24314;&#22312; <code class="literal">JmsTemplate</code>&#22522;&#30784;&#20043;&#19978;&#65292;&#24182;&#19988;&#25552;&#20379;&#20102;&#21644;&#28040;&#24687;&#25277;&#35937;&#23618;&#65288;&#22914;<code class="literal">org.springframework.messaging.Message</code>&#65289;
+&#30340;&#25972;&#21512;&#65292;&#36825;&#20801;&#35768;&#35753;&#20320;&#29992;&#36890;&#29992;&#30340;&#26041;&#24335;&#21019;&#24314;&#28040;&#24687;&#21457;&#36865;&#28040;&#24687;&#12290;</p>
+</div>
+<div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="jms-connections" href="#jms-connections"></a>23.2.2&nbsp;&#36830;&#25509;</h3></div></div></div>
+
+<p><code class="literal">JmsTemplate</code>&#38656;&#35201;&#19968;&#20010;&#23545;<code class="literal">ConnectionFactory</code>&#30340;&#24341;&#29992; &#12290;<code class="literal">ConnectionFactory</code>&#26159;JMS&#35268;&#33539;&#30340;&#19968;&#37096;&#20998;&#65292;&#20316;&#20026;
+&#20351;&#29992;JMS&#30340;&#20837;&#21475;&#28857;&#12290;&#23427;&#34987;&#23458;&#25143;&#31471;&#31243;&#24207;&#29992;&#20316;&#19968;&#20010;&#24037;&#21378;&#21019;&#24314;&#19982;JMS&#25552;&#20379;&#32773;&#30340;&#36830;&#25509;&#24182;&#19988;&#21387;&#32553;&#35768;&#22810;&#37197;&#32622;&#21442;&#25968;&#65292;&#22823;&#22810;&#25968;&#37197;&#32622;&#21442;&#25968;&#26159;&#28040;&#24687;&#25552;&#20379;
+&#21830;&#25351;&#23450;&#30340;&#65292;&#22914;SSL&#37197;&#32622;&#36873;&#25321;&#12290;</p>
+<p>&#24403;&#22312;EJB&#20013;&#20351;&#29992;JMS&#26102;&#65292;&#28040;&#24687;&#25552;&#20379;&#21830;&#25552;&#20379;&#20102;JMS&#25509;&#21475;&#30340;&#23454;&#29616;&#65292;&#25152;&#20197;&#20182;&#20204;&#21487;&#20197;&#21442;&#19982;&#21040;&#22768;&#26126;&#24335;&#20107;&#21153;&#31649;&#29702;&#21644;&#25191;&#34892;&#30340;&#36830;&#25509;&#27744;&#21644;&#20250;&#35805;&#20013;&#12290;
+&#20026;&#20102;&#20351;&#29992;&#36825;&#20010;&#23454;&#29616;&#65292;J2EE&#23481;&#22120;&#36890;&#24120;&#38656;&#35201;&#20320;&#22768;&#26126;&#19968;&#20010;JMS&#36830;&#25509;&#24037;&#21378;&#20316;&#20026;EJB&#25110;&#32773;servlet&#37096;&#32626;&#25551;&#36848;&#22120;&#20869;&#37096;&#30340;&#19968;&#20010;<code class="literal">resource-ref</code>&#65292;
+&#23458;&#25143;&#31471;&#31243;&#24207;&#24212;&#35813;&#30830;&#20445;&#23427;&#24341;&#29992;<code class="literal">ConnectionFactory</code>&#34987;spring&#31649;&#29702;&#36215;&#26469;&#30340;&#23454;&#29616;&#12290;</p>
+<div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="jms-caching-resources" href="#jms-caching-resources"></a>&#32531;&#23384;&#28040;&#24687;&#36164;&#28304;</h4></div></div></div>
+
+<p>&#26631;&#20934;API&#28041;&#21450;&#21019;&#24314;&#35768;&#22810;&#20013;&#38388;&#23545;&#35937;&#12290;&#35201;&#21019;&#24314;&#19968;&#20010;&#28040;&#24687;&#65292;&#19979;&#38754;&#30340;<span class="emphasis"><em>API</em></span>&#27493;&#39588;&#34987;&#25191;&#34892;</p>
+
+<pre class="literallayout">ConnectionFactory-&gt;Connection-&gt;Session-&gt;MessageProducer-&gt;send</pre>
+
+<p>&#22312;ConnectionFactory&#21644;Send&#25805;&#20316;&#20043;&#38388;&#26377;&#19977;&#20010;&#20013;&#38388;&#23545;&#35937;&#34987;&#21019;&#24314;&#21644;&#38144;&#27585;&#12290;&#20026;&#20102;&#20248;&#21270;&#36164;&#28304;&#30340;&#20351;&#29992;&#25552;&#21319;&#24615;&#33021;&#65292;<code class="literal">ConnectionFactory</code>
+&#25552;&#20379;&#20004;&#31181;&#23454;&#29616;&#26041;&#24335;&#12290;</p>
+</div>
+<div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="jms-connection-factory" href="#jms-connection-factory"></a>SingleConnectionFactory&#31867;</h4></div></div></div>
+
+<p>Spring&#25552;&#20379;<code class="literal">ConnectionFactory</code>&#25509;&#21475;&#30340;&#19968;&#20010;&#23454;&#29616;<code class="literal">SingleConnectionFactory</code>&#65292;&#23427;&#23558;&#22312;&#25152;&#26377;&#30340;<code class="literal">createConnection()</code>&#26041;&#27861;&#35843;&#29992;&#19978;&#36820;&#22238;
+&#21516;&#26679;&#30340; <code class="literal">Connection</code>&#24182;&#19988;&#19981;&#38656;&#35201;&#35843;&#29992; <code class="literal">close()</code>&#12290;&#36825;&#26159;&#29992;&#20110;&#27979;&#35797;&#21644;&#29420;&#31435;&#30340;&#29615;&#22659;&#65292;&#20197;&#33267;&#20110;&#21516;&#19968;&#20010;&#36830;&#25509;&#33021;&#22815;&#34987;<code class="literal">JmsTemplate</code>&#22810;&#27425;&#20351;&#29992;&#65292;<code class="literal">JmsTemplate</code>
+&#35843;&#29992;&#21487;&#33021;&#36328;&#20219;&#24847;&#22810;&#20010;&#20107;&#21153;&#12290;<code class="literal">SingleConnectionFactory</code>&#21442;&#32771;&#19968;&#20010;&#26631;&#20934;&#30340;&#65292;&#36890;&#24120;&#26469;&#33258;&#20110;JNDI&#30340;<code class="literal">ConnectionFactory</code>&#12290;</p>
+</div>
+<div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="jdbc-connection-factory-caching" href="#jdbc-connection-factory-caching"></a>CachingConnectionFactory&#31867;</h4></div></div></div>
+
+<p><code class="literal">CachingConnectionFactory</code>&#31867;&#25193;&#23637;&#20102; <code class="literal">SingleConnectionFactory</code>&#31867;&#30340;&#21151;&#33021;&#24182;&#19988;&#28155;&#21152;&#20102;&#20250;&#35805;&#32531;&#23384;&#65292;&#28040;&#24687;&#29983;&#20135;&#32773;&#21644;&#28040;&#24687;&#28040;&#36153;&#32773;&#12290;
+&#21021;&#22987;&#21270;&#32531;&#23384;&#22823;&#23567;&#35774;&#32622;&#20026;1&#65292;&#20351;&#29992;&#23646;&#24615;<code class="literal">SessionCacheSize</code>&#22686;&#21152;&#34987;&#32531;&#23384;&#20250;&#35805;&#30340;&#25968;&#37327;&#12290;&#27880;&#24847;&#23454;&#38469;&#34987;&#32531;&#23384;&#20250;&#35805;&#30340;&#25968;&#37327;&#23558;&#36828;&#27604;&#22522;&#20110;&#24212;&#31572;&#27169;&#24335;&#32531;&#23384;&#30340;&#20250;
+&#35805;&#25968;&#37327;&#22810;&#65292;&#22240;&#27492;&#23545;&#20110;&#27599;&#19968;&#20010;<code class="literal">AcknowledgementMode</code>&#65292;&#24403;<code class="literal">SessionCacheSize</code>&#35774;&#32622;&#20026;1&#26102;&#65292;&#32531;&#23384;&#30340;&#20250;&#35805;&#23454;&#20363;&#25552;&#21319;&#21040;4&#12290;&#24403;&#32531;&#23384;&#30340;&#26102;&#20505;&#65292;
+&#28040;&#24687;&#29983;&#20135;&#32773;&#21644;&#28040;&#24687;&#28040;&#36153;&#32773;&#34987;&#32531;&#23384;&#22312;&#20182;&#20204;&#33258;&#24049;&#30340;&#20250;&#35805;&#20013;&#21516;&#26102;&#20063;&#32771;&#34385;&#21040;&#29983;&#20135;&#32773;&#21644;&#28040;&#36153;&#32773;&#30340;&#21807;&#19968;&#23646;&#24615;&#12290;&#28040;&#24687;&#29983;&#20135;&#32773;&#22522;&#20110;&#20182;&#20204;&#30340;&#30446;&#30340;&#22320;&#34987;&#32531;&#23384;&#65292;&#28040;&#24687;&#28040;&#36153;&#32773;
+&#22522;&#20110;&#30446;&#30340;&#22320;&#65292;&#36873;&#25321;&#22120;&#65292;&#38750;&#26412;&#22320;&#20256;&#36865;&#26631;&#35782;&#21644;&#25345;&#20037;&#35746;&#38405;&#21517;&#31216;&#65288;&#20551;&#35774;&#21019;&#24314;&#25345;&#20037;&#28040;&#36153;&#32773;&#65289;&#30340;&#20851;&#38190;&#32452;&#25104;&#34987;&#32531;&#23384;&#12290;</p>
+</div>
+</div>
+<div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="jms-destinations" href="#jms-destinations"></a>23.2.3&nbsp;&#30446;&#30340;&#22320;&#31649;&#29702;</h3></div></div></div>
+
+<p>&#30446;&#30340;&#22320;&#65292;&#23601;&#20687;&#36830;&#25509;&#24037;&#21378;&#19968;&#26679;&#65292;&#26159;JMS&#31649;&#29702;&#30340;&#23545;&#35937;&#65292;&#21487;&#20197;&#22312;JNDI&#20013;&#23384;&#20648;&#21644;&#33719;&#21462;&#12290;&#24403;&#37197;&#32622;&#19968;&#20010;Spring&#24212;&#29992;&#19978;&#19979;&#25991;&#26102;&#65292;&#20320;&#21487;&#20197;&#20351;&#29992;JNDI&#24037;&#21378;&#31867;
+<code class="literal">JndiObjectFactoryBean</code> / <code class="literal">&lt;jee:jndi-lookup&gt;</code>&#25191;&#34892;&#20381;&#36182;&#27880;&#20837;&#65292;&#22312;&#20320;&#23545;JMS&#30446;&#30340;&#22320;&#23545;&#35937;&#30340;&#24341;&#29992;&#19978;&#38754;&#12290;&#28982;&#32780;&#65292;&#36890;&#24120;&#36825;&#31181;&#31574;&#30053;&#26159;
+&#40635;&#28902;&#30340;&#65292;&#22914;&#26524;&#22312;&#24212;&#29992;&#31243;&#24207;&#20013;&#26377;&#22823;&#37327;&#30340;&#30446;&#30340;&#22320;&#65292;&#25110;&#32773;&#22914;&#26524;&#29420;&#29305;&#30340;JMS&#25552;&#20379;&#21830;&#26377;&#20808;&#36827;&#30340;&#30446;&#30340;&#22320;&#31649;&#29702;&#21151;&#33021;&#12290;&#20363;&#22914;&#65292;&#36825;&#20010;&#20808;&#36827;&#30340;&#30446;&#30340;&#22320;&#31649;&#29702;&#26159;&#21160;&#24577;&#30340;&#21019;&#24314;
+&#30446;&#30340;&#22320;&#25110;&#32773;&#25903;&#25345;&#30446;&#30340;&#22320;&#30340;&#23618;&#27425;&#21270;&#21629;&#21517;&#31354;&#38388;&#30340;&#12290;<code class="literal">JmsTemplate</code>&#31867;&#22996;&#25176;&#19968;&#20010;&#30446;&#30340;&#22320;&#21517;&#30340;&#35299;&#26512;&#32473;&#23454;&#29616;<code class="literal">DestinationResolver</code>&#25509;&#21475;&#30340;&#19968;&#20010;
+JMS&#30446;&#30340;&#22320;&#23545;&#35937;&#12290;<code class="literal">DynamicDestinationResolver</code>&#34987;<code class="literal">JmsTemplate</code>&#20351;&#29992;&#65292;&#40664;&#35748;&#23454;&#29616;<code class="literal">DestinationResolver</code>&#24182;&#19988;&#25552;&#20379;&#21160;&#24577;
+&#30446;&#30340;&#22320;&#30340;&#35299;&#26512;&#12290;<code class="literal">JndiDestinationResolver</code>&#20063;&#34987;&#25552;&#20379;&#65292;&#20316;&#20026;&#30446;&#30340;&#22312;&#26381;&#21153;&#23450;&#20301;&#22120;&#21253;&#21547;&#22312;JNDI&#20013;&#65292;&#21644;ptionally falls back to the behavior
+&#21253;&#21547;&#22312;<code class="literal">DynamicDestinationResolver</code>&#20013;&#12290;</p>
+<p>&#24456;&#22810;&#26102;&#20505;&#22312;JMS&#24212;&#29992;&#31243;&#24207;&#20013;&#34987;&#20351;&#29992;&#30340;destinations&#21482;&#26377;&#22312;&#36816;&#34892;&#30340;&#26102;&#20505;&#25165;&#30693;&#36947;&#65292;&#22240;&#27492;&#19981;&#33021;&#22815;&#22312;&#37096;&#32626;&#24212;&#29992;&#31243;&#24207;&#30340;&#26102;&#20505;&#36890;&#36807;&#31649;&#29702;&#26041;&#24335;&#21019;&#24314;&#12290;
+&#36825;&#36890;&#24120;&#26159;&#22240;&#20026;&#22312;&#20004;&#20010;&#30456;&#20114;&#20316;&#29992;&#30340;&#31995;&#32479;&#32452;&#20214;&#20043;&#38388;&#65292;&#26681;&#25454;&#21629;&#21517;&#32422;&#23450;&#22312;&#36816;&#34892;&#26102;&#21019;&#24314;destinations&#12290;&#34429;&#28982;&#21160;&#24577;&#30340;&#21019;&#24314;destinations&#24182;&#19981;&#26159;
+JMS&#35268;&#33539;&#30340;&#19968;&#37096;&#20998;&#65292;&#20294;&#22823;&#22810;&#25968;&#30340;&#21378;&#21830;&#25552;&#20379;&#20102;&#36825;&#20010;&#21151;&#33021;&#12290;&#21160;&#24577;destinations&#26681;&#25454;&#29992;&#25143;&#30340;&#23450;&#20041;&#36827;&#34892;&#21019;&#24314;&#21306;&#21035;&#20110;&#20020;&#26102;&#30340;destinations&#65292;
+&#21478;&#22806;&#23427;&#24182;&#19981;&#24635;&#26159;&#22312;JNDI&#20013;&#27880;&#20876;&#12290;&#29992;&#20110;&#21019;&#24314;&#21160;&#24577;destinations&#30340;API&#22312;&#21378;&#21830;&#20043;&#38388;&#26159;&#19981;&#19968;&#26679;&#30340;&#65292;&#22240;&#20026;&#19982;destination&#30456;&#20851;&#30340;&#23646;
+&#24615;&#26159;&#21378;&#21830;&#29305;&#26377;&#30340;&#12290;&#28982;&#32780;&#65292;&#26377;&#26102;&#20505;&#21378;&#21830;&#20570;&#19968;&#20010;&#31616;&#21333;&#23454;&#29616;&#36873;&#25321;&#65292;&#32780;&#24573;&#30053;&#20102;JMS&#35268;&#33539;&#30340;&#35686;&#21578;&#65292;&#20351;&#29992;<code class="literal">TopicSession</code>&#31867;&#30340;<code class="literal">createTopic(
+String topicName)</code>&#26041;&#27861;&#25110;&#32773;<code class="literal">QueueSession</code>&#31867;&#30340;<code class="literal">createQueue(StringqueueName)</code>&#26041;&#27861;&#65292;&#21152;&#19978;&#40664;&#35748;&#30340;destinat
+ion&#23646;&#24615;&#37197;&#32622;&#65292;&#21019;&#24314;&#19968;&#20010;&#26032;&#30340;destination&#12290;&#26681;&#25454;&#21378;&#21830;&#30340;&#23454;&#29616;&#65292;<code class="literal">DynamicDestinationResolver</code>&#20063;&#26377;&#21487;&#33021;&#21019;&#24314;&#19968;&#20010;&#23454;&#23454;&#22312;&#22312;&#30340;
+destination&#32780;&#19981;&#26159;&#23545;&#20854;&#36827;&#34892;&#35299;&#26512;&#12290;</p>
+<p><code class="literal">JmsTemplate</code>&#20351;&#29992;&#24067;&#23572;&#31867;&#22411;&#23646;&#24615;<code class="literal">pubSubDomain</code>&#36827;&#34892;&#37197;&#32622;&#65292;&#20102;&#35299;JMS&#21738;&#20010;&#22495;&#34987;&#20351;&#29992;&#12290;&#40664;&#35748;&#26159;false,&#34920;&#31034;&#37319;&#29992;&#28857;&#23545;&#28857;&#30340;Queues&#12290;
+&#36890;&#36807;&#23545;<code class="literal">DestinationResolver</code>&#25509;&#21475;&#30340;&#23454;&#29616;&#65292;&#23427;&#20915;&#23450;&#20102;&#21160;&#24577;destination&#35299;&#26512;&#30340;&#34892;&#20026;&#12290;</p>
+<p>&#20320;&#20063;&#21487;&#20197;&#20351;&#29992;<code class="literal">JmsTemplate</code>&#31867;&#30340;<code class="literal">defaultDestination</code>&#23646;&#24615;&#37197;&#32622;&#40664;&#35748;&#30340;destination&#12290;&#40664;&#35748;&#30340;destination&#23558;&#29992;&#26469;&#21457;&#36865;&#21644;
+&#25509;&#25910;&#28040;&#24687;&#65292;&#19981;&#24341;&#29992;&#25351;&#23450;&#30340;destination&#12290;</p>
+</div>
+<div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="jms-mdp" href="#jms-mdp"></a>23.2.4&nbsp;&#28040;&#24687;&#30417;&#21548;&#23481;&#22120;</h3></div></div></div>
+
+<p>&#22312;EJB&#20013;JMS&#28040;&#24687;&#26368;&#24120;&#29992;&#30340;&#19968;&#31181;&#26159;&#39537;&#21160;&#28040;&#24687;&#39537;&#21160;beans(MDBs)&#12290;Spring&#25552;&#20379;&#20102;&#19968;&#31181;&#21019;&#24314;&#28040;&#24687;&#39537;&#21160;POJOs(MDPs)&#26041;&#26696;&#65292;&#19981;&#29992;&#23558;&#19968;&#20010;&#29992;&#25143;
+&#32465;&#23450;&#21040;EJB&#23481;&#22120;&#20013;&#12290;&#65288;&#21442;&#30475;<a class="xref" href="jms.html#jms-asynchronousMessageReception" title="23.4.2&nbsp;Asynchronous Reception - Message-Driven POJOs">Section&nbsp;23.4.2, &#8220;Asynchronous Reception - Message-Driven POJOs&#8221;</a>&#20102;&#35299;&#26356;&#22810;Spring&#25903;&#25345;MDP&#30340;&#35814;&#32454;&#20449;&#24687;&#12290;&#65289;&#20174;Spring4.1
+&#24320;&#22987;&#65292;&#31471;&#28857;&#26041;&#27861;&#21487;&#20197;&#31616;&#21333;&#20351;&#29992;&#27880;&#35299;<code class="literal">@JmsListener</code>&#21442;&#30475;<a class="xref" href="jms.html#jms-annotated" title="23.6&nbsp;Annotation-driven listener endpoints">Section&nbsp;23.6, &#8220;Annotation-driven listener endpoints&#8221;</a>&#20102;&#35299;&#26356;&#22810;&#20449;&#24687;&#12290;</p>
+<p>&#19968;&#20010;&#28040;&#24687;&#30417;&#21548;&#23481;&#22120;&#29992;&#20110;&#25509;&#25910;JMS&#28040;&#24687;&#38431;&#21015;&#30340;&#28040;&#24687;&#24182;&#39537;&#21160;<code class="literal">MessageListener</code>&#27880;&#20837;&#36827;&#26469;&#12290;&#23427;&#36127;&#36131;&#25152;&#26377;&#28040;&#24687;&#25509;&#25910;&#32447;&#31243;&#24182;&#20998;&#37197;&#32473;&#30417;&#21548;&#22120;&#22788;&#29702;&#12290;&#23427;
+&#26159;MDP&#21644;&#28040;&#24687;&#20379;&#24212;&#32773;&#38388;&#30340;&#26725;&#26753;&#65292;&#24182;&#19988;&#36127;&#36131;&#27880;&#20876;&#25509;&#25910;&#28040;&#24687;&#65292;&#21442;&#19982;&#20107;&#21153;&#65292;&#33719;&#21462;&#21644;&#37322;&#25918;&#36164;&#28304;&#65292;&#24322;&#24120;&#36716;&#25442;&#31561;&#31561;&#12290;&#36825;&#20801;&#35768;&#20320;&#20889;&#19982;&#25509;&#25910;&#28040;&#24687;&#65288;&#21487;&#33021;&#38656;&#35201;&#22238;&#24212;&#65289;
+&#30456;&#20851;&#30340;&#19994;&#21153;&#36923;&#36753;&#65288;&#21487;&#33021;&#22797;&#26434;&#65289;&#65292;&#24182;&#19988;delegates boilerplate JMS infrastructure concerns to the framework.</p>
+<p>&#26377;&#20004;&#20010;&#26631;&#20934;&#30340;JMS&#28040;&#24687;&#30417;&#21548;&#23481;&#22120;&#21253;&#21547;&#22312;Spring&#20013;&#65292;&#27599;&#19968;&#20010;&#37117;&#26377;&#23427;&#29305;&#27530;&#30340;&#21151;&#33021;&#38598;&#12290;</p>
+<div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="jms-mdp-simple" href="#jms-mdp-simple"></a>SimpleMessageListenerContainer&#31867;</h4></div></div></div>
+
+<p>&#36825;&#20010;&#28040;&#24687;&#30417;&#21548;&#23481;&#22120;&#26159;&#20004;&#31181;&#26631;&#20934;&#39118;&#26684;&#20013;&#27604;&#36739;&#31616;&#21333;&#30340;&#19968;&#20010;&#65292;&#23427;&#22312;&#21551;&#21160;&#26102;&#21019;&#24314;&#22266;&#23450;&#25968;&#37327;&#30340;JMS&#20250;&#35805;&#21644;&#28040;&#36153;&#32773;&#65292;&#20351;&#29992;&#26631;&#20934;&#30340;JMS&#26041;&#27861;<code class="literal">MessageConsumer.setMessageListener()</code>
+&#27880;&#20876;&#30417;&#21548;&#65292;&#24182;&#19988;&#35753;JMS&#25552;&#20379;&#32773;&#20570;&#30417;&#21548;&#22238;&#35843;&#12290;&#23427;&#19981;&#36866;&#20110;&#21160;&#24577;&#36816;&#34892;&#35201;&#27714;&#25110;&#32773;&#21442;&#19982;&#39069;&#22806;&#31649;&#29702;&#20107;&#21153;&#12290;&#20860;&#23481;&#19978;&#65292;&#23427;&#19982;&#26631;&#20934;&#30340;JMS&#35268;&#33539;&#24456;&#36817;&#65292;&#20294;&#23427;&#36890;&#24120;&#24773;&#20917;&#19979;&#19981;&#20860;&#23481;Java EE&#30340;JMS&#38480;&#21046;&#26465;&#20214;&#12290;</p>
+</div>
+<div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="jms-mdp-default" href="#jms-mdp-default"></a>DefaultMessageListenerContainer&#31867;</h4></div></div></div>
+
+<p>&#36825;&#20010;&#28040;&#24687;&#30417;&#21548;&#23481;&#22120;&#29992;&#20110;&#22823;&#37096;&#20998;&#30340;&#26696;&#20363;&#20013;&#12290;&#19982;<code class="literal">SimpleMessageListenerContainer</code>&#30456;&#21453;&#30340;&#26159;&#65292;&#36825;&#20010;&#23481;&#22120;&#36866;&#20110;&#21160;&#24577;&#36816;&#34892;&#35201;&#27714;&#24182;&#19988;&#33021;&#21442;&#19982;&#39069;&#22806;&#31649;&#29702;&#20107;&#21153;&#12290;
+&#22312;&#37197;&#32622;<code class="literal">JtaTransactionManager</code>&#30340;&#26102;&#20505;&#65292;&#27599;&#19968;&#20010;&#34987;&#25509;&#25910;&#30340;&#28040;&#24687;&#20351;&#29992;XA&#20107;&#21153;&#27880;&#20876;&#65292;&#22240;&#27492;&#21487;&#33021;&#21033;&#29992;XA&#20107;&#21153;&#35821;&#27861;&#22788;&#29702;&#12290;&#36825;&#20010;&#30417;&#21548;&#23481;&#22120;&#22312;JMS&#20379;&#24212;&#32773;&#20302;&#35201;&#27714;&#65292;
+&#20808;&#36827;&#21151;&#33021;&#65288;&#22914;&#20107;&#21153;&#21442;&#19982;&#65289;&#21644;&#19982;JavaEE&#29615;&#22659;&#20860;&#23481;&#24615;&#20043;&#38388;&#21462;&#24471;&#20102;&#24179;&#34913;&#12290;</p>
+<p>&#23481;&#22120;&#32531;&#23384;&#31561;&#32423;&#21487;&#20197;&#23450;&#21046;&#65292;&#27880;&#24847;&#24403;&#32531;&#23384;&#19981;&#21487;&#29992;&#30340;&#26102;&#20505;&#65292;&#27599;&#19968;&#27425;&#28040;&#24687;&#25509;&#25910;&#65292;&#19968;&#20010;&#26032;&#30340;connection&#21644;&#26032;&#30340;session&#34987;&#21019;&#24314;&#12290;&#20351;&#29992;&#39640;&#36127;&#36733;&#30340;&#38750;&#25345;&#20037;&#21270;&#35746;&#38405;&#21487;&#33021;&#23548;&#33268;
+&#28040;&#24687;&#20002;&#22833;&#65292;&#22312;&#36825;&#31181;&#24773;&#20917;&#19979;&#65292;&#30830;&#20445;&#20351;&#29992;&#21512;&#36866;&#30340;&#32531;&#23384;&#31561;&#32423;&#12290;</p>
+<p>This container also has recoverable capabilities when the broker goes down. By default,
+a simple <code class="literal">BackOff</code> implementation retries every 5 seconds. It is possible to specify
+a custom <code class="literal">BackOff</code> implementation for more fine-grained recovery options, see
+<code class="literal">ExponentialBackOff</code> for an example.</p>
+</div>
+</div>
+<div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="jms-tx" href="#jms-tx"></a>23.2.5&nbsp;Transaction management</h3></div></div></div>
+
+<p>Spring provides a <code class="literal">JmsTransactionManager</code> that manages transactions for a single JMS
+<code class="literal">ConnectionFactory</code>. This allows JMS applications to leverage the managed transaction
+features of Spring as described in <a class="xref" href="transaction.html" title="11.&nbsp;&#20107;&#21153;&#31649;&#29702;">Chapter&nbsp;11, <i>&#20107;&#21153;&#31649;&#29702;</i></a>. The <code class="literal">JmsTransactionManager</code> performs
+local resource transactions, binding a JMS Connection/Session pair from the specified
+<code class="literal">ConnectionFactory</code> to the thread. <code class="literal">JmsTemplate</code> automatically detects such
+transactional resources and operates on them accordingly.</p>
+<p>In a Java EE environment, the <code class="literal">ConnectionFactory</code> will pool Connections and Sessions, so
+those resources are efficiently reused across transactions. In a standalone environment,
+using Spring&#8217;s <code class="literal">SingleConnectionFactory</code> will result in a shared JMS <code class="literal">Connection</code>, with
+each transaction having its own independent <code class="literal">Session</code>. Alternatively, consider the use
+of a provider-specific pooling adapter such as ActiveMQ&#8217;s <code class="literal">PooledConnectionFactory</code>
+class.</p>
+<p><code class="literal">JmsTemplate</code> can also be used with the <code class="literal">JtaTransactionManager</code> and an XA-capable JMS
+<code class="literal">ConnectionFactory</code> for performing distributed transactions. Note that this requires the
+use of a JTA transaction manager as well as a properly XA-configured ConnectionFactory!
+(Check your Java EE server&#8217;s / JMS provider&#8217;s documentation.)</p>
+<p>Reusing code across a managed and unmanaged transactional environment can be confusing
+when using the JMS API to create a <code class="literal">Session</code> from a <code class="literal">Connection</code>. This is because the
+JMS API has only one factory method to create a <code class="literal">Session</code> and it requires values for the
+transaction and acknowledgement modes. In a managed environment, setting these values is
+the responsibility of the environment&#8217;s transactional infrastructure, so these values
+are ignored by the vendor&#8217;s wrapper to the JMS Connection. When using the <code class="literal">JmsTemplate</code>
+in an unmanaged environment you can specify these values through the use of the
+properties <code class="literal">sessionTransacted</code> and <code class="literal">sessionAcknowledgeMode</code>. When using a
+<code class="literal">PlatformTransactionManager</code> with <code class="literal">JmsTemplate</code>, the template will always be given a
+transactional JMS <code class="literal">Session</code>.</p>
+</div>
+</div>
+<div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="jms-sending" href="#jms-sending"></a>23.3&nbsp;Sending a Message</h2></div></div></div>
+
+<p>The <code class="literal">JmsTemplate</code> contains many convenience methods to send a message. There are send
+methods that specify the destination using a <code class="literal">javax.jms.Destination</code> object and those
+that specify the destination using a string for use in a JNDI lookup. The send method
+that takes no destination argument uses the default destination.</p>
+<pre class="programlisting"><span class="hl-keyword">import</span> javax.jms.ConnectionFactory;
+<span class="hl-keyword">import</span> javax.jms.JMSException;
+<span class="hl-keyword">import</span> javax.jms.Message;
+<span class="hl-keyword">import</span> javax.jms.Queue;
+<span class="hl-keyword">import</span> javax.jms.Session;
+
+<span class="hl-keyword">import</span> org.springframework.jms.core.MessageCreator;
+<span class="hl-keyword">import</span> org.springframework.jms.core.JmsTemplate;
+
+<span class="hl-keyword">public</span> <span class="hl-keyword">class</span> JmsQueueSender {
+
+    <span class="hl-keyword">private</span> JmsTemplate jmsTemplate;
+    <span class="hl-keyword">private</span> Queue queue;
+
+    <span class="hl-keyword">public</span> <span class="hl-keyword">void</span> setConnectionFactory(ConnectionFactory cf) {
+        <span class="hl-keyword">this</span>.jmsTemplate = <span class="hl-keyword">new</span> JmsTemplate(cf);
+    }
+
+    <span class="hl-keyword">public</span> <span class="hl-keyword">void</span> setQueue(Queue queue) {
+        <span class="hl-keyword">this</span>.queue = queue;
+    }
+
+    <span class="hl-keyword">public</span> <span class="hl-keyword">void</span> simpleSend() {
+        <span class="hl-keyword">this</span>.jmsTemplate.send(<span class="hl-keyword">this</span>.queue, <span class="hl-keyword">new</span> MessageCreator() {
+            <span class="hl-keyword">public</span> Message createMessage(Session session) <span class="hl-keyword">throws</span> JMSException {
+                <span class="hl-keyword">return</span> session.createTextMessage(<span class="hl-string">"hello queue world"</span>);
+            }
+        });
+    }
+}</pre>
+
+<p>This example uses the <code class="literal">MessageCreator</code> callback to create a text message from the
+supplied <code class="literal">Session</code> object. The <code class="literal">JmsTemplate</code> is constructed by passing a reference to a
+<code class="literal">ConnectionFactory</code>. As an alternative, a zero argument constructor and
+<code class="literal">connectionFactory</code> is provided and can be used for constructing the instance in
+JavaBean style (using a BeanFactory or plain Java code). Alternatively, consider
+deriving from Spring&#8217;s <code class="literal">JmsGatewaySupport</code> convenience base class, which provides
+pre-built bean properties for JMS configuration.</p>
+<p>The method <code class="literal">send(String destinationName, MessageCreator creator)</code> lets you send a
+message using the string name of the destination. If these names are registered in JNDI,
+you should set the <code class="literal">destinationResolver</code> property of the template to an instance of
+<code class="literal">JndiDestinationResolver</code>.</p>
+<p>If you created the <code class="literal">JmsTemplate</code> and specified a default destination, the
+<code class="literal">send(MessageCreator c)</code> sends a message to that destination.</p>
+<div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="jms-msg-conversion" href="#jms-msg-conversion"></a>23.3.1&nbsp;Using Message Converters</h3></div></div></div>
+
+<p>In order to facilitate the sending of domain model objects, the <code class="literal">JmsTemplate</code> has
+various send methods that take a Java object as an argument for a message&#8217;s data
+content. The overloaded methods <code class="literal">convertAndSend()</code> and <code class="literal">receiveAndConvert()</code> in
+<code class="literal">JmsTemplate</code> delegate the conversion process to an instance of the <code class="literal">MessageConverter</code>
+interface. This interface defines a simple contract to convert between Java objects and
+JMS messages. The default implementation <code class="literal">SimpleMessageConverter</code> supports conversion
+between <code class="literal">String</code> and <code class="literal">TextMessage</code>, <code class="literal">byte[]</code> and <code class="literal">BytesMesssage</code>, and <code class="literal">java.util.Map</code>
+and <code class="literal">MapMessage</code>. By using the converter, you and your application code can focus on the
+business object that is being sent or received via JMS and not be concerned with the
+details of how it is represented as a JMS message.</p>
+<p>The sandbox currently includes a <code class="literal">MapMessageConverter</code> which uses reflection to convert
+between a JavaBean and a <code class="literal">MapMessage</code>. Other popular implementation choices you might
+implement yourself are Converters that use an existing XML marshalling package, such as
+JAXB, Castor, XMLBeans, or XStream, to create a <code class="literal">TextMessage</code> representing the object.</p>
+<p>To accommodate the setting of a message&#8217;s properties, headers, and body that can not be
+generically encapsulated inside a converter class, the <code class="literal">MessagePostProcessor</code> interface
+gives you access to the message after it has been converted, but before it is sent. The
+example below demonstrates how to modify a message header and a property after a
+<code class="literal">java.util.Map</code> is converted to a message.</p>
+<pre class="programlisting"><span class="hl-keyword">public</span> <span class="hl-keyword">void</span> sendWithConversion() {
+    Map map = <span class="hl-keyword">new</span> HashMap();
+    map.put(<span class="hl-string">"Name"</span>, <span class="hl-string">"Mark"</span>);
+    map.put(<span class="hl-string">"Age"</span>, <span class="hl-keyword">new</span> Integer(<span class="hl-number">47</span>));
+    jmsTemplate.convertAndSend(<span class="hl-string">"testQueue"</span>, map, <span class="hl-keyword">new</span> MessagePostProcessor() {
+        <span class="hl-keyword">public</span> Message postProcessMessage(Message message) <span class="hl-keyword">throws</span> JMSException {
+            message.setIntProperty(<span class="hl-string">"AccountID"</span>, <span class="hl-number">1234</span>);
+            message.setJMSCorrelationID(<span class="hl-string">"123-00001"</span>);
+            <span class="hl-keyword">return</span> message;
+        }
+    });
+}</pre>
+
+<p>This results in a message of the form:</p>
+
+<pre class="literallayout">MapMessage={
+	Header={
+		... standard headers ...
+		CorrelationID={123-00001}
+	}
+	Properties={
+		AccountID={Integer:1234}
+	}
+	Fields={
+		Name={String:Mark}
+		Age={Integer:47}
+	}
+}</pre>
+
+</div>
+<div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="jms-callbacks" href="#jms-callbacks"></a>23.3.2&nbsp;SessionCallback and ProducerCallback</h3></div></div></div>
+
+<p>While the send operations cover many common usage scenarios, there are cases when you
+want to perform multiple operations on a JMS <code class="literal">Session</code> or <code class="literal">MessageProducer</code>. The
+<code class="literal">SessionCallback</code> and <code class="literal">ProducerCallback</code> expose the JMS <code class="literal">Session</code> and <code class="literal">Session</code> /
+<code class="literal">MessageProducer</code> pair respectively. The <code class="literal">execute()</code> methods on <code class="literal">JmsTemplate</code> execute
+these callback methods.</p>
+</div>
+</div>
+<div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="jms-receiving" href="#jms-receiving"></a>23.4&nbsp;Receiving a message</h2></div></div></div>
+
+<div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="jms-receiving-sync" href="#jms-receiving-sync"></a>23.4.1&nbsp;Synchronous Reception</h3></div></div></div>
+
+<p>While JMS is typically associated with asynchronous processing, it is possible to
+consume messages synchronously. The overloaded <code class="literal">receive(..)</code> methods provide this
+functionality. During a synchronous receive, the calling thread blocks until a message
+becomes available. This can be a dangerous operation since the calling thread can
+potentially be blocked indefinitely. The property <code class="literal">receiveTimeout</code> specifies how long
+the receiver should wait before giving up waiting for a message.</p>
+</div>
+<div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="jms-asynchronousMessageReception" href="#jms-asynchronousMessageReception"></a>23.4.2&nbsp;Asynchronous Reception - Message-Driven POJOs</h3></div></div></div>
+
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/note.png"></td><th align="left">Note</th></tr><tr><td align="left" valign="top">
+<p>Spring also supports annotated-listener endpoints through the use of the <code class="literal">@JmsListener</code>
+annotation and provides an open infrastructure to register endpoints programmatically. This
+is by far the most convenient way to setup an asynchronous receiver, see
+<a class="xref" href="jms.html#jms-annotated-support" title="23.6.1&nbsp;Enable listener endpoint annotations">Section&nbsp;23.6.1, &#8220;Enable listener endpoint annotations&#8221;</a> for more details.</p>
+</td></tr></table></div>
+
+<p>In a fashion similar to a Message-Driven Bean (MDB) in the EJB world, the Message-Driven
+POJO (MDP) acts as a receiver for JMS messages. The one restriction (but see also below
+for the discussion of the <code class="literal">MessageListenerAdapter</code> class) on an MDP is that it must
+implement the <code class="literal">javax.jms.MessageListener</code> interface. Please also be aware that in the
+case where your POJO will be receiving messages on multiple threads, it is important to
+ensure that your implementation is thread-safe.</p>
+<p>Below is a simple implementation of an MDP:</p>
+<pre class="programlisting"><span class="hl-keyword">import</span> javax.jms.JMSException;
+<span class="hl-keyword">import</span> javax.jms.Message;
+<span class="hl-keyword">import</span> javax.jms.MessageListener;
+<span class="hl-keyword">import</span> javax.jms.TextMessage;
+
+<span class="hl-keyword">public</span> <span class="hl-keyword">class</span> ExampleListener <span class="hl-keyword">implements</span> MessageListener {
+
+    <span class="hl-keyword">public</span> <span class="hl-keyword">void</span> onMessage(Message message) {
+        <span class="hl-keyword">if</span> (message <span class="hl-keyword">instanceof</span> TextMessage) {
+            <span class="hl-keyword">try</span> {
+                System.out.println(((TextMessage) message).getText());
+            }
+            <span class="hl-keyword">catch</span> (JMSException ex) {
+                <span class="hl-keyword">throw</span> <span class="hl-keyword">new</span> RuntimeException(ex);
+            }
+        }
+        <span class="hl-keyword">else</span> {
+            <span class="hl-keyword">throw</span> <span class="hl-keyword">new</span> IllegalArgumentException(<span class="hl-string">"Message must be of type TextMessage"</span>);
+        }
+    }
+
+}</pre>
+
+<p>Once you&#8217;ve implemented your <code class="literal">MessageListener</code>, it&#8217;s time to create a message listener
+container.</p>
+<p>Find below an example of how to define and configure one of the message listener
+containers that ships with Spring (in this case the <code class="literal">DefaultMessageListenerContainer</code>).</p>
+<pre class="programlisting"><span class="hl-comment">&lt;!-- this is the Message Driven POJO (MDP) --&gt;</span>
+<span class="hl-tag">&lt;bean</span> <span class="hl-attribute">id</span>=<span class="hl-value">"messageListener"</span> <span class="hl-attribute">class</span>=<span class="hl-value">"jmsexample.ExampleListener"</span><span class="hl-tag"> /&gt;</span>
+
+<span class="hl-comment">&lt;!-- and this is the message listener container --&gt;</span>
+<span class="hl-tag">&lt;bean</span> <span class="hl-attribute">id</span>=<span class="hl-value">"jmsContainer"</span> <span class="hl-attribute">class</span>=<span class="hl-value">"org.springframework.jms.listener.DefaultMessageListenerContainer"</span><span class="hl-tag">&gt;</span>
+    <span class="hl-tag">&lt;property</span> <span class="hl-attribute">name</span>=<span class="hl-value">"connectionFactory"</span> <span class="hl-attribute">ref</span>=<span class="hl-value">"connectionFactory"</span><span class="hl-tag">/&gt;</span>
+    <span class="hl-tag">&lt;property</span> <span class="hl-attribute">name</span>=<span class="hl-value">"destination"</span> <span class="hl-attribute">ref</span>=<span class="hl-value">"destination"</span><span class="hl-tag">/&gt;</span>
+    <span class="strong"><strong>&lt;property name="messageListener" ref="messageListener" /&gt;</strong></span>
+<span class="hl-tag">&lt;/bean&gt;</span></pre>
+
+<p>Please refer to the Spring javadocs of the various message listener containers for a full
+description of the features supported by each implementation.</p>
+</div>
+<div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="jms-receiving-async-session-aware-message-listener" href="#jms-receiving-async-session-aware-message-listener"></a>23.4.3&nbsp;the SessionAwareMessageListener interface</h3></div></div></div>
+
+<p>The <code class="literal">SessionAwareMessageListener</code> interface is a Spring-specific interface that provides
+a similar contract to the JMS <code class="literal">MessageListener</code> interface, but also provides the message
+handling method with access to the JMS <code class="literal">Session</code> from which the <code class="literal">Message</code> was received.</p>
+<pre class="programlisting"><span class="hl-keyword">package</span> org.springframework.jms.listener;
+
+<span class="hl-keyword">public</span> <span class="hl-keyword">interface</span> SessionAwareMessageListener {
+
+    <span class="hl-keyword">void</span> onMessage(Message message, Session session) <span class="hl-keyword">throws</span> JMSException;
+
+}</pre>
+
+<p>You can choose to have your MDPs implement this interface (in preference to the standard
+JMS <code class="literal">MessageListener</code> interface) if you want your MDPs to be able to respond to any
+received messages (using the <code class="literal">Session</code> supplied in the <code class="literal">onMessage(Message, Session)</code>
+method). All of the message listener container implementations that ship with Spring
+have support for MDPs that implement either the <code class="literal">MessageListener</code> or
+<code class="literal">SessionAwareMessageListener</code> interface. Classes that implement the
+<code class="literal">SessionAwareMessageListener</code> come with the caveat that they are then tied to Spring
+through the interface. The choice of whether or not to use it is left entirely up to you
+as an application developer or architect.</p>
+<p>Please note that the <code class="literal">'onMessage(..)'</code> method of the <code class="literal">SessionAwareMessageListener</code>
+interface throws <code class="literal">JMSException</code>. In contrast to the standard JMS <code class="literal">MessageListener</code>
+interface, when using the <code class="literal">SessionAwareMessageListener</code> interface, it is the
+responsibility of the client code to handle any exceptions thrown.</p>
+</div>
+<div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="jms-receiving-async-message-listener-adapter" href="#jms-receiving-async-message-listener-adapter"></a>23.4.4&nbsp;the MessageListenerAdapter</h3></div></div></div>
+
+<p>The <code class="literal">MessageListenerAdapter</code> class is the final component in Spring&#8217;s asynchronous
+messaging support: in a nutshell, it allows you to expose almost <span class="emphasis"><em>any</em></span> class as a MDP
+(there are of course some constraints).</p>
+<p>Consider the following interface definition. Notice that although the interface extends
+neither the <code class="literal">MessageListener</code> nor <code class="literal">SessionAwareMessageListener</code> interfaces, it can still
+be used as a MDP via the use of the <code class="literal">MessageListenerAdapter</code> class. Notice also how the
+various message handling methods are strongly typed according to the <span class="emphasis"><em>contents</em></span> of the
+various <code class="literal">Message</code> types that they can receive and handle.</p>
+<pre class="programlisting"><span class="hl-keyword">public</span> <span class="hl-keyword">interface</span> MessageDelegate {
+
+    <span class="hl-keyword">void</span> handleMessage(String message);
+
+    <span class="hl-keyword">void</span> handleMessage(Map message);
+
+    <span class="hl-keyword">void</span> handleMessage(<span class="hl-keyword">byte</span>[] message);
+
+    <span class="hl-keyword">void</span> handleMessage(Serializable message);
+
+}</pre>
+
+<pre class="programlisting"><span class="hl-keyword">public</span> <span class="hl-keyword">class</span> DefaultMessageDelegate <span class="hl-keyword">implements</span> MessageDelegate {
+    <span class="hl-comment">// implementation elided for clarity...</span>
+}</pre>
+
+<p>In particular, note how the above implementation of the <code class="literal">MessageDelegate</code> interface (the
+above <code class="literal">DefaultMessageDelegate</code> class) has <span class="emphasis"><em>no</em></span> JMS dependencies at all. It truly is a
+POJO that we will make into an MDP via the following configuration.</p>
+<pre class="programlisting"><span class="hl-comment">&lt;!-- this is the Message Driven POJO (MDP) --&gt;</span>
+<span class="strong"><strong>&lt;bean id="messageListener" class="org.springframework.jms.listener.adapter.MessageListenerAdapter"&gt;
+    &lt;constructor-arg&gt;
+        &lt;bean class="jmsexample.DefaultMessageDelegate"/&gt;
+    &lt;/constructor-arg&gt;
+&lt;/bean&gt;</strong></span>
+
+<span class="hl-comment">&lt;!-- and this is the message listener container... --&gt;</span>
+<span class="hl-tag">&lt;bean</span> <span class="hl-attribute">id</span>=<span class="hl-value">"jmsContainer"</span> <span class="hl-attribute">class</span>=<span class="hl-value">"org.springframework.jms.listener.DefaultMessageListenerContainer"</span><span class="hl-tag">&gt;</span>
+    <span class="hl-tag">&lt;property</span> <span class="hl-attribute">name</span>=<span class="hl-value">"connectionFactory"</span> <span class="hl-attribute">ref</span>=<span class="hl-value">"connectionFactory"</span><span class="hl-tag">/&gt;</span>
+    <span class="hl-tag">&lt;property</span> <span class="hl-attribute">name</span>=<span class="hl-value">"destination"</span> <span class="hl-attribute">ref</span>=<span class="hl-value">"destination"</span><span class="hl-tag">/&gt;</span>
+    <span class="strong"><strong>&lt;property name="messageListener" ref="messageListener" /&gt;</strong></span>
+<span class="hl-tag">&lt;/bean&gt;</span></pre>
+
+<p>Below is an example of another MDP that can only handle the receiving of JMS
+<code class="literal">TextMessage</code> messages. Notice how the message handling method is actually called
+<code class="literal">'receive'</code> (the name of the message handling method in a <code class="literal">MessageListenerAdapter</code>
+defaults to <code class="literal">'handleMessage'</code>), but it is configurable (as you will see below). Notice
+also how the <code class="literal">'receive(..)'</code> method is strongly typed to receive and respond only to JMS
+<code class="literal">TextMessage</code> messages.</p>
+<pre class="programlisting"><span class="hl-keyword">public</span> <span class="hl-keyword">interface</span> TextMessageDelegate {
+
+    <span class="hl-keyword">void</span> receive(TextMessage message);
+
+}</pre>
+
+<pre class="programlisting"><span class="hl-keyword">public</span> <span class="hl-keyword">class</span> DefaultTextMessageDelegate <span class="hl-keyword">implements</span> TextMessageDelegate {
+    <span class="hl-comment">// implementation elided for clarity...</span>
+}</pre>
+
+<p>The configuration of the attendant <code class="literal">MessageListenerAdapter</code> would look like this:</p>
+<pre class="programlisting"><span class="hl-tag">&lt;bean</span> <span class="hl-attribute">id</span>=<span class="hl-value">"messageListener"</span> <span class="hl-attribute">class</span>=<span class="hl-value">"org.springframework.jms.listener.adapter.MessageListenerAdapter"</span><span class="hl-tag">&gt;</span>
+    <span class="hl-tag">&lt;constructor-arg&gt;</span>
+        <span class="hl-tag">&lt;bean</span> <span class="hl-attribute">class</span>=<span class="hl-value">"jmsexample.DefaultTextMessageDelegate"</span><span class="hl-tag">/&gt;</span>
+    <span class="hl-tag">&lt;/constructor-arg&gt;</span>
+    <span class="hl-tag">&lt;property</span> <span class="hl-attribute">name</span>=<span class="hl-value">"defaultListenerMethod"</span> <span class="hl-attribute">value</span>=<span class="hl-value">"receive"</span><span class="hl-tag">/&gt;</span>
+    <span class="hl-comment">&lt;!-- we don't want automatic message context extraction --&gt;</span>
+    <span class="hl-tag">&lt;property</span> <span class="hl-attribute">name</span>=<span class="hl-value">"messageConverter"</span><span class="hl-tag">&gt;</span>
+        <span class="hl-tag">&lt;null/&gt;</span>
+    <span class="hl-tag">&lt;/property&gt;</span>
+<span class="hl-tag">&lt;/bean&gt;</span></pre>
+
+<p>Please note that if the above <code class="literal">'messageListener'</code> receives a JMS <code class="literal">Message</code> of a type
+other than <code class="literal">TextMessage</code>, an <code class="literal">IllegalStateException</code> will be thrown (and subsequently
+swallowed). Another of the capabilities of the <code class="literal">MessageListenerAdapter</code> class is the
+ability to automatically send back a response <code class="literal">Message</code> if a handler method returns a
+non-void value. Consider the interface and class:</p>
+<pre class="programlisting"><span class="hl-keyword">public</span> <span class="hl-keyword">interface</span> ResponsiveTextMessageDelegate {
+
+    <span class="hl-comment">// notice the return type...</span>
+    String receive(TextMessage message);
+
+}</pre>
+
+<pre class="programlisting"><span class="hl-keyword">public</span> <span class="hl-keyword">class</span> DefaultResponsiveTextMessageDelegate <span class="hl-keyword">implements</span> ResponsiveTextMessageDelegate {
+    <span class="hl-comment">// implementation elided for clarity...</span>
+}</pre>
+
+<p>If the above <code class="literal">DefaultResponsiveTextMessageDelegate</code> is used in conjunction with a
+<code class="literal">MessageListenerAdapter</code> then any non-null value that is returned from the execution of
+the <code class="literal">'receive(..)'</code> method will (in the default configuration) be converted into a
+<code class="literal">TextMessage</code>. The resulting <code class="literal">TextMessage</code> will then be sent to the <code class="literal">Destination</code> (if
+one exists) defined in the JMS Reply-To property of the original <code class="literal">Message</code>, or the
+default <code class="literal">Destination</code> set on the <code class="literal">MessageListenerAdapter</code> (if one has been configured);
+if no <code class="literal">Destination</code> is found then an <code class="literal">InvalidDestinationException</code> will be thrown (and
+please note that this exception <span class="emphasis"><em>will not</em></span> be swallowed and <span class="emphasis"><em>will</em></span> propagate up the
+call stack).</p>
+</div>
+<div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="jms-tx-participation" href="#jms-tx-participation"></a>23.4.5&nbsp;Processing messages within transactions</h3></div></div></div>
+
+<p>Invoking a message listener within a transaction only requires reconfiguration of the
+listener container.</p>
+<p>Local resource transactions can simply be activated through the <code class="literal">sessionTransacted</code> flag
+on the listener container definition. Each message listener invocation will then operate
+within an active JMS transaction, with message reception rolled back in case of listener
+execution failure. Sending a response message (via <code class="literal">SessionAwareMessageListener</code>) will
+be part of the same local transaction, but any other resource operations (such as
+database access) will operate independently. This usually requires duplicate message
+detection in the listener implementation, covering the case where database processing
+has committed but message processing failed to commit.</p>
+<pre class="programlisting"><span class="hl-tag">&lt;bean</span> <span class="hl-attribute">id</span>=<span class="hl-value">"jmsContainer"</span> <span class="hl-attribute">class</span>=<span class="hl-value">"org.springframework.jms.listener.DefaultMessageListenerContainer"</span><span class="hl-tag">&gt;</span>
+    <span class="hl-tag">&lt;property</span> <span class="hl-attribute">name</span>=<span class="hl-value">"connectionFactory"</span> <span class="hl-attribute">ref</span>=<span class="hl-value">"connectionFactory"</span><span class="hl-tag">/&gt;</span>
+    <span class="hl-tag">&lt;property</span> <span class="hl-attribute">name</span>=<span class="hl-value">"destination"</span> <span class="hl-attribute">ref</span>=<span class="hl-value">"destination"</span><span class="hl-tag">/&gt;</span>
+    <span class="hl-tag">&lt;property</span> <span class="hl-attribute">name</span>=<span class="hl-value">"messageListener"</span> <span class="hl-attribute">ref</span>=<span class="hl-value">"messageListener"</span><span class="hl-tag">/&gt;</span>
+    <span class="strong"><strong>&lt;property name="sessionTransacted" value="true"/&gt;</strong></span>
+<span class="hl-tag">&lt;/bean&gt;</span></pre>
+
+<p>For participating in an externally managed transaction, you will need to configure a
+transaction manager and use a listener container which supports externally managed
+transactions: typically <code class="literal">DefaultMessageListenerContainer</code>.</p>
+<p>To configure a message listener container for XA transaction participation, you&#8217;ll want
+to configure a <code class="literal">JtaTransactionManager</code> (which, by default, delegates to the Java EE
+server&#8217;s transaction subsystem). Note that the underlying JMS ConnectionFactory needs to
+be XA-capable and properly registered with your JTA transaction coordinator! (Check your
+Java EE server&#8217;s configuration of JNDI resources.) This allows message reception as well
+as e.g. database access to be part of the same transaction (with unified commit
+semantics, at the expense of XA transaction log overhead).</p>
+<pre class="programlisting"><span class="hl-tag">&lt;bean</span> <span class="hl-attribute">id</span>=<span class="hl-value">"transactionManager"</span> <span class="hl-attribute">class</span>=<span class="hl-value">"org.springframework.transaction.jta.JtaTransactionManager"</span><span class="hl-tag">/&gt;</span></pre>
+
+<p>Then you just need to add it to our earlier container configuration. The container will
+take care of the rest.</p>
+<pre class="programlisting"><span class="hl-tag">&lt;bean</span> <span class="hl-attribute">id</span>=<span class="hl-value">"jmsContainer"</span> <span class="hl-attribute">class</span>=<span class="hl-value">"org.springframework.jms.listener.DefaultMessageListenerContainer"</span><span class="hl-tag">&gt;</span>
+    <span class="hl-tag">&lt;property</span> <span class="hl-attribute">name</span>=<span class="hl-value">"connectionFactory"</span> <span class="hl-attribute">ref</span>=<span class="hl-value">"connectionFactory"</span><span class="hl-tag">/&gt;</span>
+    <span class="hl-tag">&lt;property</span> <span class="hl-attribute">name</span>=<span class="hl-value">"destination"</span> <span class="hl-attribute">ref</span>=<span class="hl-value">"destination"</span><span class="hl-tag">/&gt;</span>
+    <span class="hl-tag">&lt;property</span> <span class="hl-attribute">name</span>=<span class="hl-value">"messageListener"</span> <span class="hl-attribute">ref</span>=<span class="hl-value">"messageListener"</span><span class="hl-tag">/&gt;</span>
+    <span class="strong"><strong>&lt;property name="transactionManager" ref="transactionManager"/&gt;</strong></span>
+<span class="hl-tag">&lt;/bean&gt;</span></pre>
+
+</div>
+</div>
+<div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="jms-jca-message-endpoint-manager" href="#jms-jca-message-endpoint-manager"></a>23.5&nbsp;Support for JCA Message Endpoints</h2></div></div></div>
+
+<p>Beginning with version 2.5, Spring also provides support for a JCA-based
+<code class="literal">MessageListener</code> container. The <code class="literal">JmsMessageEndpointManager</code> will attempt to
+automatically determine the <code class="literal">ActivationSpec</code> class name from the provider&#8217;s
+<code class="literal">ResourceAdapter</code> class name. Therefore, it is typically possible to just provide
+Spring&#8217;s generic <code class="literal">JmsActivationSpecConfig</code> as shown in the following example.</p>
+<pre class="programlisting"><span class="hl-tag">&lt;bean</span> <span class="hl-attribute">class</span>=<span class="hl-value">"org.springframework.jms.listener.endpoint.JmsMessageEndpointManager"</span><span class="hl-tag">&gt;</span>
+    <span class="hl-tag">&lt;property</span> <span class="hl-attribute">name</span>=<span class="hl-value">"resourceAdapter"</span> <span class="hl-attribute">ref</span>=<span class="hl-value">"resourceAdapter"</span><span class="hl-tag">/&gt;</span>
+    <span class="hl-tag">&lt;property</span> <span class="hl-attribute">name</span>=<span class="hl-value">"activationSpecConfig"</span><span class="hl-tag">&gt;</span>
+        <span class="hl-tag">&lt;bean</span> <span class="hl-attribute">class</span>=<span class="hl-value">"org.springframework.jms.listener.endpoint.JmsActivationSpecConfig"</span><span class="hl-tag">&gt;</span>
+            <span class="hl-tag">&lt;property</span> <span class="hl-attribute">name</span>=<span class="hl-value">"destinationName"</span> <span class="hl-attribute">value</span>=<span class="hl-value">"myQueue"</span><span class="hl-tag">/&gt;</span>
+        <span class="hl-tag">&lt;/bean&gt;</span>
+    <span class="hl-tag">&lt;/property&gt;</span>
+    <span class="hl-tag">&lt;property</span> <span class="hl-attribute">name</span>=<span class="hl-value">"messageListener"</span> <span class="hl-attribute">ref</span>=<span class="hl-value">"myMessageListener"</span><span class="hl-tag">/&gt;</span>
+<span class="hl-tag">&lt;/bean&gt;</span></pre>
+
+<p>Alternatively, you may set up a <code class="literal">JmsMessageEndpointManager</code> with a given
+<code class="literal">ActivationSpec</code> object. The <code class="literal">ActivationSpec</code> object may also come from a JNDI lookup
+(using <code class="literal">&lt;jee:jndi-lookup&gt;</code>).</p>
+<pre class="programlisting"><span class="hl-tag">&lt;bean</span> <span class="hl-attribute">class</span>=<span class="hl-value">"org.springframework.jms.listener.endpoint.JmsMessageEndpointManager"</span><span class="hl-tag">&gt;</span>
+    <span class="hl-tag">&lt;property</span> <span class="hl-attribute">name</span>=<span class="hl-value">"resourceAdapter"</span> <span class="hl-attribute">ref</span>=<span class="hl-value">"resourceAdapter"</span><span class="hl-tag">/&gt;</span>
+    <span class="hl-tag">&lt;property</span> <span class="hl-attribute">name</span>=<span class="hl-value">"activationSpec"</span><span class="hl-tag">&gt;</span>
+        <span class="hl-tag">&lt;bean</span> <span class="hl-attribute">class</span>=<span class="hl-value">"org.apache.activemq.ra.ActiveMQActivationSpec"</span><span class="hl-tag">&gt;</span>
+            <span class="hl-tag">&lt;property</span> <span class="hl-attribute">name</span>=<span class="hl-value">"destination"</span> <span class="hl-attribute">value</span>=<span class="hl-value">"myQueue"</span><span class="hl-tag">/&gt;</span>
+            <span class="hl-tag">&lt;property</span> <span class="hl-attribute">name</span>=<span class="hl-value">"destinationType"</span> <span class="hl-attribute">value</span>=<span class="hl-value">"javax.jms.Queue"</span><span class="hl-tag">/&gt;</span>
+        <span class="hl-tag">&lt;/bean&gt;</span>
+    <span class="hl-tag">&lt;/property&gt;</span>
+    <span class="hl-tag">&lt;property</span> <span class="hl-attribute">name</span>=<span class="hl-value">"messageListener"</span> <span class="hl-attribute">ref</span>=<span class="hl-value">"myMessageListener"</span><span class="hl-tag">/&gt;</span>
+<span class="hl-tag">&lt;/bean&gt;</span></pre>
+
+<p>Using Spring&#8217;s <code class="literal">ResourceAdapterFactoryBean</code>, the target <code class="literal">ResourceAdapter</code> may be
+configured locally as depicted in the following example.</p>
+<pre class="programlisting"><span class="hl-tag">&lt;bean</span> <span class="hl-attribute">id</span>=<span class="hl-value">"resourceAdapter"</span> <span class="hl-attribute">class</span>=<span class="hl-value">"org.springframework.jca.support.ResourceAdapterFactoryBean"</span><span class="hl-tag">&gt;</span>
+    <span class="hl-tag">&lt;property</span> <span class="hl-attribute">name</span>=<span class="hl-value">"resourceAdapter"</span><span class="hl-tag">&gt;</span>
+        <span class="hl-tag">&lt;bean</span> <span class="hl-attribute">class</span>=<span class="hl-value">"org.apache.activemq.ra.ActiveMQResourceAdapter"</span><span class="hl-tag">&gt;</span>
+            <span class="hl-tag">&lt;property</span> <span class="hl-attribute">name</span>=<span class="hl-value">"serverUrl"</span> <span class="hl-attribute">value</span>=<span class="hl-value">"tcp://localhost:61616"</span><span class="hl-tag">/&gt;</span>
+        <span class="hl-tag">&lt;/bean&gt;</span>
+    <span class="hl-tag">&lt;/property&gt;</span>
+    <span class="hl-tag">&lt;property</span> <span class="hl-attribute">name</span>=<span class="hl-value">"workManager"</span><span class="hl-tag">&gt;</span>
+        <span class="hl-tag">&lt;bean</span> <span class="hl-attribute">class</span>=<span class="hl-value">"org.springframework.jca.work.SimpleTaskWorkManager"</span><span class="hl-tag">/&gt;</span>
+    <span class="hl-tag">&lt;/property&gt;</span>
+<span class="hl-tag">&lt;/bean&gt;</span></pre>
+
+<p>The specified <code class="literal">WorkManager</code> may also point to an environment-specific thread pool -
+typically through <code class="literal">SimpleTaskWorkManager's</code> "asyncTaskExecutor" property. Consider
+defining a shared thread pool for all your <code class="literal">ResourceAdapter</code> instances if you happen to
+use multiple adapters.</p>
+<p>In some environments (e.g. WebLogic 9 or above), the entire <code class="literal">ResourceAdapter</code> object may
+be obtained from JNDI instead (using <code class="literal">&lt;jee:jndi-lookup&gt;</code>). The Spring-based message
+listeners can then interact with the server-hosted <code class="literal">ResourceAdapter</code>, also using the
+server&#8217;s built-in <code class="literal">WorkManager</code>.</p>
+<p>Please consult the JavaDoc for <code class="literal">JmsMessageEndpointManager</code>, <code class="literal">JmsActivationSpecConfig</code>,
+and <code class="literal">ResourceAdapterFactoryBean</code> for more details.</p>
+<p>Spring also provides a generic JCA message endpoint manager which is not tied to JMS:
+<code class="literal">org.springframework.jca.endpoint.GenericMessageEndpointManager</code>. This component allows
+for using any message listener type (e.g. a CCI MessageListener) and any
+provider-specific ActivationSpec object. Check out your JCA provider&#8217;s documentation to
+find out about the actual capabilities of your connector, and consult
+<code class="literal">GenericMessageEndpointManager</code>'s JavaDoc for the Spring-specific configuration details.</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/note.png"></td><th align="left">Note</th></tr><tr><td align="left" valign="top">
+<p>JCA-based message endpoint management is very analogous to EJB 2.1 Message-Driven Beans;
+it uses the same underlying resource provider contract. Like with EJB 2.1 MDBs, any
+message listener interface supported by your JCA provider can be used in the Spring
+context as well. Spring nevertheless provides explicit <span class="emphasis"><em>convenience</em></span> support for JMS,
+simply because JMS is the most common endpoint API used with the JCA endpoint management
+contract.</p>
+</td></tr></table></div>
+
+</div>
+<div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="jms-annotated" href="#jms-annotated"></a>23.6&nbsp;Annotation-driven listener endpoints</h2></div></div></div>
+
+<p>The easiest way to receive a message asynchronously is to use the annotated listener
+endpoint infrastructure. In a nutshell, it allows you to expose a method of a managed
+bean as a JMS listener endpoint.</p>
+<pre class="programlisting"><em><span class="hl-annotation" style="color: gray">@Component</span></em>
+<span class="hl-keyword">public</span> <span class="hl-keyword">class</span> MyService {
+
+    <em><span class="hl-annotation" style="color: gray">@JmsListener(destination = "myDestination")</span></em>
+    <span class="hl-keyword">public</span> <span class="hl-keyword">void</span> processOrder(String data) { ... }
+}</pre>
+
+<p>The idea of the example above is that whenever a message is available on the
+<code class="literal">javax.jms.Destination</code> "myDestination", the <code class="literal">processOrder</code> method is invoked
+accordingly (in this case, with the content of the JMS message similarly to
+what the <a class="link" href="jms.html#jms-receiving-async-message-listener-adapter" title="23.4.4&nbsp;the MessageListenerAdapter"><code class="literal">MessageListenerAdapter</code></a>
+provides).</p>
+<p>The annotated endpoint infrastructure creates a message listener container
+behind the scenes for each annotated method, using a <code class="literal">JmsListenerContainerFactory</code>.</p>
+<div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="jms-annotated-support" href="#jms-annotated-support"></a>23.6.1&nbsp;Enable listener endpoint annotations</h3></div></div></div>
+
+<p>To enable support for <code class="literal">@JmsListener</code> annotations add <code class="literal">@EnableJms</code> to one of
+your <code class="literal">@Configuration</code> classes.</p>
+<pre class="programlisting"><em><span class="hl-annotation" style="color: gray">@Configuration</span></em>
+<em><span class="hl-annotation" style="color: gray">@EnableJms</span></em>
+<span class="hl-keyword">public</span> <span class="hl-keyword">class</span> AppConfig {
+
+    <em><span class="hl-annotation" style="color: gray">@Bean</span></em>
+    <span class="hl-keyword">public</span> DefaultJmsListenerContainerFactory jmsListenerContainerFactory() {
+        DefaultJmsListenerContainerFactory factory =
+                <span class="hl-keyword">new</span> DefaultJmsListenerContainerFactory();
+        factory.setConnectionFactory(connectionFactory());
+        factory.setDestinationResolver(destinationResolver());
+        factory.setConcurrency(<span class="hl-string">"3-10"</span>);
+        <span class="hl-keyword">return</span> factory;
+    }
+}</pre>
+
+<p>By default, the infrastructure looks for a bean named <code class="literal">jmsListenerContainerFactory</code>
+as the source for the factory to use to create message listener containers. In this
+case, and ignoring the JMS infrastructure setup, the <code class="literal">processOrder</code> method can be
+invoked with a core poll size of 3 threads and a maximum pool size of 10 threads.</p>
+<p>It is possible to customize the listener container factory to use per annotation or
+an explicit default can be configured by implementing the <code class="literal">JmsListenerConfigurer</code>
+interface. The default is only required if at least one endpoint is registered
+without a specific container factory. See the javadoc for full details and examples.</p>
+<p>If you prefer <a class="link" href="jms.html#jms-namespace" title="23.7&nbsp;JMS Namespace Support">XML configuration</a> use the <code class="literal">&lt;jms:annotation-driven&gt;</code>
+element.</p>
+<pre class="programlisting"><span class="hl-tag">&lt;jms:annotation-driven/&gt;</span>
+
+<span class="hl-tag">&lt;bean</span> <span class="hl-attribute">id</span>=<span class="hl-value">"jmsListenerContainerFactory"</span>
+        <span class="hl-attribute">class</span>=<span class="hl-value">"org.springframework.jms.config.DefaultJmsListenerContainerFactory"</span><span class="hl-tag">&gt;</span>
+    <span class="hl-tag">&lt;property</span> <span class="hl-attribute">name</span>=<span class="hl-value">"connectionFactory"</span> <span class="hl-attribute">ref</span>=<span class="hl-value">"connectionFactory"</span><span class="hl-tag">/&gt;</span>
+    <span class="hl-tag">&lt;property</span> <span class="hl-attribute">name</span>=<span class="hl-value">"destinationResolver"</span> <span class="hl-attribute">ref</span>=<span class="hl-value">"destinationResolver"</span><span class="hl-tag">/&gt;</span>
+    <span class="hl-tag">&lt;property</span> <span class="hl-attribute">name</span>=<span class="hl-value">"concurrency"</span> <span class="hl-attribute">value</span>=<span class="hl-value">"3-10"</span><span class="hl-tag">/&gt;</span>
+<span class="hl-tag">&lt;/bean&gt;</span></pre>
+
+</div>
+<div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="jms-annotated-programmatic-registration" href="#jms-annotated-programmatic-registration"></a>23.6.2&nbsp;Programmatic endpoints registration</h3></div></div></div>
+
+<p><code class="literal">JmsListenerEndpoint</code> provides a model of an JMS endpoint and is responsible for configuring
+the container for that model. The infrastructure allows you to configure endpoints
+programmatically in addition to the ones that are detected by the <code class="literal">JmsListener</code> annotation.</p>
+<pre class="programlisting"><em><span class="hl-annotation" style="color: gray">@Configuration</span></em>
+<em><span class="hl-annotation" style="color: gray">@EnableJms</span></em>
+<span class="hl-keyword">public</span> <span class="hl-keyword">class</span> AppConfig <span class="hl-keyword">implements</span> JmsListenerConfigurer {
+
+    <em><span class="hl-annotation" style="color: gray">@Override</span></em>
+    <span class="hl-keyword">public</span> <span class="hl-keyword">void</span> configureJmsListeners(JmsListenerEndpointRegistrar registrar) {
+        SimpleJmsListenerEndpoint endpoint = <span class="hl-keyword">new</span> SimpleJmsListenerEndpoint();
+        endpoint.setId(<span class="hl-string">"myJmsEndpoint"</span>);
+        endpoint.setDestination(<span class="hl-string">"anotherQueue"</span>);
+        endpoint.setMessageListener(message -&gt; {
+            <span class="hl-comment">// processing</span>
+        });
+        registrar.registerEndpoint(endpoint);
+    }
+}</pre>
+
+<p>In the example above, we used <code class="literal">SimpleJmsListenerEndpoint</code> which provides the actual
+<code class="literal">MessageListener</code> to invoke but you could just as well build your own endpoint variant
+describing a custom invocation mechanism.</p>
+<p>It should be noted that you could just as well skip the use of <code class="literal">@JmsListener</code> altogether
+and only register your endpoints programmatically through <code class="literal">JmsListenerConfigurer</code>.</p>
+</div>
+<div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="jms-annotated-method-signature" href="#jms-annotated-method-signature"></a>23.6.3&nbsp;Annotated endpoint method signature</h3></div></div></div>
+
+<p>So far, we have been injecting a simple <code class="literal">String</code> in our endpoint but it can actually
+have a very flexible method signature. Let&#8217;s rewrite it to inject the <code class="literal">Order</code> with
+a custom header:</p>
+<pre class="programlisting"><em><span class="hl-annotation" style="color: gray">@Component</span></em>
+<span class="hl-keyword">public</span> <span class="hl-keyword">class</span> MyService {
+
+    <em><span class="hl-annotation" style="color: gray">@JmsListener(destination = "myDestination")</span></em>
+    <span class="hl-keyword">public</span> <span class="hl-keyword">void</span> processOrder(Order order, <em><span class="hl-annotation" style="color: gray">@Header("order_type")</span></em> String orderType) {
+        ...
+    }
+}</pre>
+
+<p>These are the main elements you can inject in JMS listener endpoints:</p>
+<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+The raw <code class="literal">javax.jms.Message</code> or any of its subclasses (provided of course that it
+matches the incoming message type).
+</li><li class="listitem">
+The <code class="literal">javax.jms.Session</code> for optional access to the native JMS API e.g. for sending
+a custom reply.
+</li><li class="listitem">
+The <code class="literal">org.springframework.messaging.Message</code> representing the incoming JMS message.
+Note that this message holds both the custom and the standard headers (as defined
+by <code class="literal">JmsHeaders</code>).
+</li><li class="listitem">
+<code class="literal">@Header</code>-annotated method arguments to extract a specific header value, including
+standard JMS headers.
+</li><li class="listitem">
+<code class="literal">@Headers</code>-annotated argument that must also be assignable to <code class="literal">java.util.Map</code> for
+getting access to all headers.
+</li><li class="listitem">
+A non-annotated element that is not one of the supported types (i.e. <code class="literal">Message</code> and
+<code class="literal">Session</code>) is considered to be the payload. You can make that explicit by annotating
+the parameter with <code class="literal">@Payload</code>. You can also turn on validation by adding an extra
+<code class="literal">@Valid</code>.
+</li></ul></div>
+
+<p>The ability to inject Spring&#8217;s <code class="literal">Message</code> abstraction is particularly useful to benefit
+from all the information stored in the transport-specific message without relying on
+transport-specific API.</p>
+<pre class="programlisting"><em><span class="hl-annotation" style="color: gray">@JmsListener(destination = "myDestination")</span></em>
+<span class="hl-keyword">public</span> <span class="hl-keyword">void</span> processOrder(Message&lt;Order&gt; order) { ... }</pre>
+
+<p>Handling of method arguments is provided by <code class="literal">DefaultMessageHandlerMethodFactory</code> which can be
+further customized to support additional method arguments. The conversion and validation
+support can be customized there as well.</p>
+<p>For instance, if we want to make sure our <code class="literal">Order</code> is valid before processing it, we can
+annotate the payload with <code class="literal">@Valid</code> and configure the necessary validator as follows:</p>
+<pre class="programlisting"><em><span class="hl-annotation" style="color: gray">@Configuration</span></em>
+<em><span class="hl-annotation" style="color: gray">@EnableJms</span></em>
+<span class="hl-keyword">public</span> <span class="hl-keyword">class</span> AppConfig <span class="hl-keyword">implements</span> JmsListenerConfigurer {
+
+    <em><span class="hl-annotation" style="color: gray">@Override</span></em>
+    <span class="hl-keyword">public</span> <span class="hl-keyword">void</span> configureJmsListeners(JmsListenerEndpointRegistrar registrar) {
+        registrar.setMessageHandlerMethodFactory(myJmsHandlerMethodFactory());
+    }
+
+    <em><span class="hl-annotation" style="color: gray">@Bean</span></em>
+    <span class="hl-keyword">public</span> DefaultMessageHandlerMethodFactory myHandlerMethodFactory() {
+        DefaultMessageHandlerMethodFactory factory = <span class="hl-keyword">new</span> DefaultMessageHandlerMethodFactory();
+        factory.setValidator(myValidator());
+        <span class="hl-keyword">return</span> factory;
+    }
+}</pre>
+
+</div>
+<div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="jms-annotated-reply" href="#jms-annotated-reply"></a>23.6.4&nbsp;Reply management</h3></div></div></div>
+
+<p>The existing support in <a class="link" href="jms.html#jms-receiving-async-message-listener-adapter" title="23.4.4&nbsp;the MessageListenerAdapter">MessageListenerAdapter</a>
+already allows your method to have a non-<code class="literal">void</code> return type. When that&#8217;s the case, the result of
+the invocation is encapsulated in a <code class="literal">javax.jms.Message</code> sent either in the destination specified
+in the <code class="literal">JMSReplyTo</code> header of the original message or in the default destination configured on
+the listener. That default destination can now be set using the <code class="literal">@SendTo</code> annotation of the
+messaging abstraction.</p>
+<p>Assuming our <code class="literal">processOrder</code> method should now return an <code class="literal">OrderStatus</code>, it is possible to write it
+as follow to automatically send a reply:</p>
+<pre class="programlisting"><em><span class="hl-annotation" style="color: gray">@JmsListener(destination = "myDestination")</span></em>
+<em><span class="hl-annotation" style="color: gray">@SendTo("status")</span></em>
+<span class="hl-keyword">public</span> OrderStatus processOrder(Order order) {
+    <span class="hl-comment">// order processing</span>
+    <span class="hl-keyword">return</span> status;
+}</pre>
+
+<p>If you need to set additional headers in a transport-independent manner, you could return a
+<code class="literal">Message</code> instead, something like:</p>
+<pre class="programlisting"><em><span class="hl-annotation" style="color: gray">@JmsListener(destination = "myDestination")</span></em>
+<em><span class="hl-annotation" style="color: gray">@SendTo("status")</span></em>
+<span class="hl-keyword">public</span> Message&lt;OrderStatus&gt; processOrder(Order order) {
+    <span class="hl-comment">// order processing</span>
+    <span class="hl-keyword">return</span> MessageBuilder
+            .withPayload(status)
+            .setHeader(<span class="hl-string">"code"</span>, <span class="hl-number">1234</span>)
+            .build();
+}</pre>
+
+</div>
+</div>
+<div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="jms-namespace" href="#jms-namespace"></a>23.7&nbsp;JMS Namespace Support</h2></div></div></div>
+
+<p>Spring provides an XML namespace for simplifying JMS configuration. To use the JMS
+namespace elements you will need to reference the JMS schema:</p>
+<pre class="programlisting"><span class="hl-directive" style="color: maroon">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="hl-tag">&lt;beans</span> <span class="hl-attribute">xmlns</span>=<span class="hl-value">"http://www.springframework.org/schema/beans"</span>
+        <span class="hl-attribute">xmlns:xsi</span>=<span class="hl-value">"http://www.w3.org/2001/XMLSchema-instance"</span>
+        <span class="strong"><strong>xmlns:jms="http://www.springframework.org/schema/jms"</strong></span>
+        xsi:schemaLocation="
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+            <span class="strong"><strong>http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd</strong></span>"&gt;
+
+    <span class="hl-comment">&lt;!-- bean definitions here --&gt;</span>
+
+<span class="hl-tag">&lt;/beans&gt;</span></pre>
+
+<p>The namespace consists of three top-level elements: <code class="literal">&lt;annotation-driven/&gt;</code>, <code class="literal">&lt;listener-container/&gt;</code>
+and <code class="literal">&lt;jca-listener-container/&gt;</code>. <code class="literal">&lt;annotation-driven</code> enables the use of <a class="link" href="jms.html#jms-annotated" title="23.6&nbsp;Annotation-driven listener endpoints">annotation-driven listener endpoints</a>. <code class="literal">&lt;listener-container/&gt;</code> and <code class="literal">&lt;jca-listener-container/&gt;</code>
+defines shared listener container configuration and may contain <code class="literal">&lt;listener/&gt;</code> child elements. Here
+is an example of a basic configuration for two listeners.</p>
+<pre class="programlisting"><span class="hl-tag">&lt;jms:listener-container&gt;</span>
+
+    <span class="hl-tag">&lt;jms:listener</span> <span class="hl-attribute">destination</span>=<span class="hl-value">"queue.orders"</span> <span class="hl-attribute">ref</span>=<span class="hl-value">"orderService"</span> <span class="hl-attribute">method</span>=<span class="hl-value">"placeOrder"</span><span class="hl-tag">/&gt;</span>
+
+    <span class="hl-tag">&lt;jms:listener</span> <span class="hl-attribute">destination</span>=<span class="hl-value">"queue.confirmations"</span> <span class="hl-attribute">ref</span>=<span class="hl-value">"confirmationLogger"</span> <span class="hl-attribute">method</span>=<span class="hl-value">"log"</span><span class="hl-tag">/&gt;</span>
+
+<span class="hl-tag">&lt;/jms:listener-container&gt;</span></pre>
+
+<p>The example above is equivalent to creating two distinct listener container bean
+definitions and two distinct <code class="literal">MessageListenerAdapter</code> bean definitions as demonstrated
+in <a class="xref" href="jms.html#jms-receiving-async-message-listener-adapter" title="23.4.4&nbsp;the MessageListenerAdapter">Section&nbsp;23.4.4, &#8220;the MessageListenerAdapter&#8221;</a>. In addition to the attributes shown
+above, the <code class="literal">listener</code> element may contain several optional ones. The following table
+describes all available attributes:</p>
+<div class="table"><a name="jms-namespace-listener-tbl" href="#jms-namespace-listener-tbl"></a><p class="title"><b>Table&nbsp;23.1.&nbsp;Attributes of the JMS &lt;listener&gt; element</b></p><div class="table-contents">
+
+  <table summary="Attributes of the JMS <listener&gt; element" style="border-collapse: collapse;border-top: 0.5pt solid ; border-bottom: 0.5pt solid ; border-left: 0.5pt solid ; border-right: 0.5pt solid ; "><colgroup><col class="col_1"><col class="col_2"></colgroup><thead><tr><th style="border-right: 0.5pt solid ; border-bottom: 0.5pt solid ; " align="left" valign="top">Attribute</th><th style="border-bottom: 0.5pt solid ; " align="left" valign="top">Description</th></tr></thead><tbody><tr><td style="border-right: 0.5pt solid ; border-bottom: 0.5pt solid ; " align="left" valign="top"><p>id</p></td><td style="border-bottom: 0.5pt solid ; " align="left" valign="top"><p>A bean name for the hosting listener container. If not specified, a bean name will be
+  automatically generated.</p></td></tr><tr><td style="border-right: 0.5pt solid ; border-bottom: 0.5pt solid ; " align="left" valign="top"><p>destination <span class="emphasis"><em>(required)</em></span></p></td><td style="border-bottom: 0.5pt solid ; " align="left" valign="top"><p>The destination name for this listener, resolved through the <code class="literal">DestinationResolver</code>
+  strategy.</p></td></tr><tr><td style="border-right: 0.5pt solid ; border-bottom: 0.5pt solid ; " align="left" valign="top"><p>ref <span class="emphasis"><em>(required)</em></span></p></td><td style="border-bottom: 0.5pt solid ; " align="left" valign="top"><p>The bean name of the handler object.</p></td></tr><tr><td style="border-right: 0.5pt solid ; border-bottom: 0.5pt solid ; " align="left" valign="top"><p>method</p></td><td style="border-bottom: 0.5pt solid ; " align="left" valign="top"><p>The name of the handler method to invoke. If the <code class="literal">ref</code> points to a <code class="literal">MessageListener</code>
+  or Spring <code class="literal">SessionAwareMessageListener</code>, this attribute may be omitted.</p></td></tr><tr><td style="border-right: 0.5pt solid ; border-bottom: 0.5pt solid ; " align="left" valign="top"><p>response-destination</p></td><td style="border-bottom: 0.5pt solid ; " align="left" valign="top"><p>The name of the default response destination to send response messages to. This will
+  be applied in case of a request message that does not carry a "JMSReplyTo" field. The
+  type of this destination will be determined by the listener-container&#8217;s
+  "destination-type" attribute. Note: This only applies to a listener method with a
+  return value, for which each result object will be converted into a response message.</p></td></tr><tr><td style="border-right: 0.5pt solid ; border-bottom: 0.5pt solid ; " align="left" valign="top"><p>subscription</p></td><td style="border-bottom: 0.5pt solid ; " align="left" valign="top"><p>The name of the durable subscription, if any.</p></td></tr><tr><td style="border-right: 0.5pt solid ; border-bottom: 0.5pt solid ; " align="left" valign="top"><p>selector</p></td><td style="border-bottom: 0.5pt solid ; " align="left" valign="top"><p>An optional message selector for this listener.</p></td></tr><tr><td style="border-right: 0.5pt solid ; " align="left" valign="top"><p>concurrency</p></td><td style="" align="left" valign="top"><p>The number of concurrent sessions/consumers to start for this listener. Can either be
+  a simple number indicating the maximum number (e.g. "5") or a range indicating the lower
+  as well as the upper limit (e.g. "3-5"). Note that a specified minimum is just a hint
+  and might be ignored at runtime. Default is the value provided by the container</p></td></tr></tbody></table>
+</div></div><br class="table-break">
+
+<p>The <code class="literal">&lt;listener-container/&gt;</code> element also accepts several optional attributes. This
+allows for customization of the various strategies (for example, <code class="literal">taskExecutor</code> and
+<code class="literal">destinationResolver</code>) as well as basic JMS settings and resource references. Using
+these attributes, it is possible to define highly-customized listener containers while
+still benefiting from the convenience of the namespace.</p>
+<p>Such settings can be automatically exposed as a <code class="literal">JmsListenerContainerFactory</code> by
+specifying the id of the bean to expose through the <code class="literal">factory-id</code> attribute.</p>
+<pre class="programlisting"><span class="hl-tag">&lt;jms:listener-container</span> <span class="hl-attribute">connection-factory</span>=<span class="hl-value">"myConnectionFactory"</span>
+        <span class="hl-attribute">task-executor</span>=<span class="hl-value">"myTaskExecutor"</span>
+        <span class="hl-attribute">destination-resolver</span>=<span class="hl-value">"myDestinationResolver"</span>
+        <span class="hl-attribute">transaction-manager</span>=<span class="hl-value">"myTransactionManager"</span>
+        <span class="hl-attribute">concurrency</span>=<span class="hl-value">"10"</span><span class="hl-tag">&gt;</span>
+
+    <span class="hl-tag">&lt;jms:listener</span> <span class="hl-attribute">destination</span>=<span class="hl-value">"queue.orders"</span> <span class="hl-attribute">ref</span>=<span class="hl-value">"orderService"</span> <span class="hl-attribute">method</span>=<span class="hl-value">"placeOrder"</span><span class="hl-tag">/&gt;</span>
+
+    <span class="hl-tag">&lt;jms:listener</span> <span class="hl-attribute">destination</span>=<span class="hl-value">"queue.confirmations"</span> <span class="hl-attribute">ref</span>=<span class="hl-value">"confirmationLogger"</span> <span class="hl-attribute">method</span>=<span class="hl-value">"log"</span><span class="hl-tag">/&gt;</span>
+
+<span class="hl-tag">&lt;/jms:listener-container&gt;</span></pre>
+
+<p>The following table describes all available attributes. Consult the class-level javadocs
+of the <code class="literal">AbstractMessageListenerContainer</code> and its concrete subclasses for more details
+on the individual properties. The javadocs also provide a discussion of transaction
+choices and message redelivery scenarios.</p>
+<div class="table"><a name="jms-namespace-listener-container-tbl" href="#jms-namespace-listener-container-tbl"></a><p class="title"><b>Table&nbsp;23.2.&nbsp;Attributes of the JMS &lt;listener-container&gt; element</b></p><div class="table-contents">
+
+  <table summary="Attributes of the JMS <listener-container&gt; element" style="border-collapse: collapse;border-top: 0.5pt solid ; border-bottom: 0.5pt solid ; border-left: 0.5pt solid ; border-right: 0.5pt solid ; "><colgroup><col class="col_1"><col class="col_2"></colgroup><thead><tr><th style="border-right: 0.5pt solid ; border-bottom: 0.5pt solid ; " align="left" valign="top">Attribute</th><th style="border-bottom: 0.5pt solid ; " align="left" valign="top">Description</th></tr></thead><tbody><tr><td style="border-right: 0.5pt solid ; border-bottom: 0.5pt solid ; " align="left" valign="top"><p>container-type</p></td><td style="border-bottom: 0.5pt solid ; " align="left" valign="top"><p>The type of this listener container. Available options are: <code class="literal">default</code>, <code class="literal">simple</code>,
+  <code class="literal">default102</code>, or <code class="literal">simple102</code> (the default value is <code class="literal">'default'</code>).</p></td></tr><tr><td style="border-right: 0.5pt solid ; border-bottom: 0.5pt solid ; " align="left" valign="top"><p>container-class</p></td><td style="border-bottom: 0.5pt solid ; " align="left" valign="top"><p>A custom listener container implementation class as fully qualified class name.
+  Default is Spring&#8217;s standard <code class="literal">DefaultMessageListenerContainer</code> or
+  <code class="literal">SimpleMessageListenerContainer</code>, according to the "container-type" attribute.</p></td></tr><tr><td style="border-right: 0.5pt solid ; border-bottom: 0.5pt solid ; " align="left" valign="top"><p>factory-id</p></td><td style="border-bottom: 0.5pt solid ; " align="left" valign="top"><p>Exposes the settings defined by this element as a <code class="literal">JmsListenerContainerFactory</code>
+  with the specified id so that they can be reused with other endpoints.</p></td></tr><tr><td style="border-right: 0.5pt solid ; border-bottom: 0.5pt solid ; " align="left" valign="top"><p>connection-factory</p></td><td style="border-bottom: 0.5pt solid ; " align="left" valign="top"><p>A reference to the JMS <code class="literal">ConnectionFactory</code> bean (the default bean name is
+  <code class="literal">'connectionFactory'</code>).</p></td></tr><tr><td style="border-right: 0.5pt solid ; border-bottom: 0.5pt solid ; " align="left" valign="top"><p>task-executor</p></td><td style="border-bottom: 0.5pt solid ; " align="left" valign="top"><p>A reference to the Spring <code class="literal">TaskExecutor</code> for the JMS listener invokers.</p></td></tr><tr><td style="border-right: 0.5pt solid ; border-bottom: 0.5pt solid ; " align="left" valign="top"><p>destination-resolver</p></td><td style="border-bottom: 0.5pt solid ; " align="left" valign="top"><p>A reference to the <code class="literal">DestinationResolver</code> strategy for resolving JMS <code class="literal">Destinations</code>.</p></td></tr><tr><td style="border-right: 0.5pt solid ; border-bottom: 0.5pt solid ; " align="left" valign="top"><p>message-converter</p></td><td style="border-bottom: 0.5pt solid ; " align="left" valign="top"><p>A reference to the <code class="literal">MessageConverter</code> strategy for converting JMS Messages to listener
+  method arguments. Default is a <code class="literal">SimpleMessageConverter</code>.</p></td></tr><tr><td style="border-right: 0.5pt solid ; border-bottom: 0.5pt solid ; " align="left" valign="top"><p>error-handler</p></td><td style="border-bottom: 0.5pt solid ; " align="left" valign="top"><p>A reference to an <code class="literal">ErrorHandler</code> strategy for handling any uncaught Exceptions that
+  may occur during the execution of the <code class="literal">MessageListener</code>.</p></td></tr><tr><td style="border-right: 0.5pt solid ; border-bottom: 0.5pt solid ; " align="left" valign="top"><p>destination-type</p></td><td style="border-bottom: 0.5pt solid ; " align="left" valign="top"><p>The JMS destination type for this listener: <code class="literal">queue</code>, <code class="literal">topic</code>, <code class="literal">durableTopic</code>, <code class="literal">sharedTopic</code>
+  or <code class="literal">sharedDurableTopic</code>. This enables potentially the <code class="literal">pubSubDomain</code>, <code class="literal">subscriptionDurable</code>
+  and <code class="literal">subscriptionShared</code> properties of the container. The default is <code class="literal">queue</code> (i.e. disabling
+  those 3 properties).</p></td></tr><tr><td style="border-right: 0.5pt solid ; border-bottom: 0.5pt solid ; " align="left" valign="top"><p>client-id</p></td><td style="border-bottom: 0.5pt solid ; " align="left" valign="top"><p>The JMS client id for this listener container. Needs to be specified when using
+  durable subscriptions.</p></td></tr><tr><td style="border-right: 0.5pt solid ; border-bottom: 0.5pt solid ; " align="left" valign="top"><p>cache</p></td><td style="border-bottom: 0.5pt solid ; " align="left" valign="top"><p>The cache level for JMS resources: <code class="literal">none</code>, <code class="literal">connection</code>, <code class="literal">session</code>, <code class="literal">consumer</code> or
+  <code class="literal">auto</code>. By default ( <code class="literal">auto</code>), the cache level will effectively be "consumer", unless
+  an external transaction manager has been specified - in which case the effective
+  default will be <code class="literal">none</code> (assuming Java EE-style transaction management where the given
+  ConnectionFactory is an XA-aware pool).</p></td></tr><tr><td style="border-right: 0.5pt solid ; border-bottom: 0.5pt solid ; " align="left" valign="top"><p>acknowledge</p></td><td style="border-bottom: 0.5pt solid ; " align="left" valign="top"><p>The native JMS acknowledge mode: <code class="literal">auto</code>, <code class="literal">client</code>, <code class="literal">dups-ok</code> or <code class="literal">transacted</code>. A value
+  of <code class="literal">transacted</code> activates a locally transacted <code class="literal">Session</code>. As an alternative, specify
+  the <code class="literal">transaction-manager</code> attribute described below. Default is <code class="literal">auto</code>.</p></td></tr><tr><td style="border-right: 0.5pt solid ; border-bottom: 0.5pt solid ; " align="left" valign="top"><p>transaction-manager</p></td><td style="border-bottom: 0.5pt solid ; " align="left" valign="top"><p>A reference to an external <code class="literal">PlatformTransactionManager</code> (typically an XA-based
+  transaction coordinator, e.g. Spring&#8217;s <code class="literal">JtaTransactionManager</code>). If not specified,
+  native acknowledging will be used (see "acknowledge" attribute).</p></td></tr><tr><td style="border-right: 0.5pt solid ; border-bottom: 0.5pt solid ; " align="left" valign="top"><p>concurrency</p></td><td style="border-bottom: 0.5pt solid ; " align="left" valign="top"><p>The number of concurrent sessions/consumers to start for each listener. Can either be
+  a simple number indicating the maximum number (e.g. "5") or a range indicating the
+  lower as well as the upper limit (e.g. "3-5"). Note that a specified minimum is just a
+  hint and might be ignored at runtime. Default is 1; keep concurrency limited to 1 in
+  case of a topic listener or if queue ordering is important; consider raising it for
+  general queues.</p></td></tr><tr><td style="border-right: 0.5pt solid ; border-bottom: 0.5pt solid ; " align="left" valign="top"><p>prefetch</p></td><td style="border-bottom: 0.5pt solid ; " align="left" valign="top"><p>The maximum number of messages to load into a single session. Note that raising this
+  number might lead to starvation of concurrent consumers!</p></td></tr><tr><td style="border-right: 0.5pt solid ; border-bottom: 0.5pt solid ; " align="left" valign="top"><p>receive-timeout</p></td><td style="border-bottom: 0.5pt solid ; " align="left" valign="top"><p>The timeout to use for receive calls (in milliseconds). The default is <code class="literal">1000</code> ms (1
+  sec); <code class="literal">-1</code> indicates no timeout at all.</p></td></tr><tr><td style="border-right: 0.5pt solid ; border-bottom: 0.5pt solid ; " align="left" valign="top"><p>back-off</p></td><td style="border-bottom: 0.5pt solid ; " align="left" valign="top"><p>Specify the <code class="literal">BackOff</code> instance to use to compute the interval between recovery
+  attempts. If the <code class="literal">BackOffExecution</code> implementation returns <code class="literal">BackOffExecution#STOP</code>,
+  the listener container will not further attempt to recover. The <code class="literal">recovery-interval</code>
+  value is ignored when this property is set. The default is a <code class="literal">FixedBackOff</code> with
+  an interval of 5000 ms, that is 5 seconds.</p></td></tr><tr><td style="border-right: 0.5pt solid ; border-bottom: 0.5pt solid ; " align="left" valign="top"><p>recovery-interval</p></td><td style="border-bottom: 0.5pt solid ; " align="left" valign="top"><p>Specify the interval between recovery attempts, in milliseconds. Convenience
+  way to create a <code class="literal">FixedBackOff</code> with the specified interval. For more recovery
+  options, consider specifying a BackOff instance instead. The default is 5000 ms,
+  that is 5 seconds.</p></td></tr><tr><td style="border-right: 0.5pt solid ; " align="left" valign="top"><p>phase</p></td><td style="" align="left" valign="top"><p>The lifecycle phase within which this container should start and stop. The lower the
+  value the earlier this container will start and the later it will stop. The default is
+  <code class="literal">Integer.MAX_VALUE</code> meaning the container will start as late as possible and stop as
+  soon as possible.</p></td></tr></tbody></table>
+</div></div><br class="table-break">
+
+<p>Configuring a JCA-based listener container with the "jms" schema support is very similar.</p>
+<pre class="programlisting"><span class="hl-tag">&lt;jms:jca-listener-container</span> <span class="hl-attribute">resource-adapter</span>=<span class="hl-value">"myResourceAdapter"</span>
+        <span class="hl-attribute">destination-resolver</span>=<span class="hl-value">"myDestinationResolver"</span>
+        <span class="hl-attribute">transaction-manager</span>=<span class="hl-value">"myTransactionManager"</span>
+        <span class="hl-attribute">concurrency</span>=<span class="hl-value">"10"</span><span class="hl-tag">&gt;</span>
+
+    <span class="hl-tag">&lt;jms:listener</span> <span class="hl-attribute">destination</span>=<span class="hl-value">"queue.orders"</span> <span class="hl-attribute">ref</span>=<span class="hl-value">"myMessageListener"</span><span class="hl-tag">/&gt;</span>
+
+<span class="hl-tag">&lt;/jms:jca-listener-container&gt;</span></pre>
+
+<p>The available configuration options for the JCA variant are described in the following
+table:</p>
+<div class="table"><a name="jms-namespace-jca-listener-container-tbl" href="#jms-namespace-jca-listener-container-tbl"></a><p class="title"><b>Table&nbsp;23.3.&nbsp;Attributes of the JMS &lt;jca-listener-container/&gt; element</b></p><div class="table-contents">
+
+  <table summary="Attributes of the JMS <jca-listener-container/&gt; element" style="border-collapse: collapse;border-top: 0.5pt solid ; border-bottom: 0.5pt solid ; border-left: 0.5pt solid ; border-right: 0.5pt solid ; "><colgroup><col class="col_1"><col class="col_2"></colgroup><thead><tr><th style="border-right: 0.5pt solid ; border-bottom: 0.5pt solid ; " align="left" valign="top">Attribute</th><th style="border-bottom: 0.5pt solid ; " align="left" valign="top">Description</th></tr></thead><tbody><tr><td style="border-right: 0.5pt solid ; border-bottom: 0.5pt solid ; " align="left" valign="top"><p>factory-id</p></td><td style="border-bottom: 0.5pt solid ; " align="left" valign="top"><p>Exposes the settings defined by this element as a <code class="literal">JmsListenerContainerFactory</code>
+  with the specified id so that they can be reused with other endpoints.</p></td></tr><tr><td style="border-right: 0.5pt solid ; border-bottom: 0.5pt solid ; " align="left" valign="top"><p>resource-adapter</p></td><td style="border-bottom: 0.5pt solid ; " align="left" valign="top"><p>A reference to the JCA <code class="literal">ResourceAdapter</code> bean (the default bean name is
+  <code class="literal">'resourceAdapter'</code>).</p></td></tr><tr><td style="border-right: 0.5pt solid ; border-bottom: 0.5pt solid ; " align="left" valign="top"><p>activation-spec-factory</p></td><td style="border-bottom: 0.5pt solid ; " align="left" valign="top"><p>A reference to the <code class="literal">JmsActivationSpecFactory</code>. The default is to autodetect the JMS
+  provider and its <code class="literal">ActivationSpec</code> class (see <code class="literal">DefaultJmsActivationSpecFactory</code>)</p></td></tr><tr><td style="border-right: 0.5pt solid ; border-bottom: 0.5pt solid ; " align="left" valign="top"><p>destination-resolver</p></td><td style="border-bottom: 0.5pt solid ; " align="left" valign="top"><p>A reference to the <code class="literal">DestinationResolver</code> strategy for resolving JMS <code class="literal">Destinations</code>.</p></td></tr><tr><td style="border-right: 0.5pt solid ; border-bottom: 0.5pt solid ; " align="left" valign="top"><p>message-converter</p></td><td style="border-bottom: 0.5pt solid ; " align="left" valign="top"><p>A reference to the <code class="literal">MessageConverter</code> strategy for converting JMS Messages to listener
+  method arguments. Default is a <code class="literal">SimpleMessageConverter</code>.</p></td></tr><tr><td style="border-right: 0.5pt solid ; border-bottom: 0.5pt solid ; " align="left" valign="top"><p>destination-type</p></td><td style="border-bottom: 0.5pt solid ; " align="left" valign="top"><p>The JMS destination type for this listener: <code class="literal">queue</code>, <code class="literal">topic</code>, <code class="literal">durableTopic</code>, <code class="literal">sharedTopic</code>
+  or <code class="literal">sharedDurableTopic</code>. This enables potentially the <code class="literal">pubSubDomain</code>, <code class="literal">subscriptionDurable</code>
+  and <code class="literal">subscriptionShared</code> properties of the container. The default is <code class="literal">queue</code> (i.e. disabling
+  those 3 properties).</p></td></tr><tr><td style="border-right: 0.5pt solid ; border-bottom: 0.5pt solid ; " align="left" valign="top"><p>client-id</p></td><td style="border-bottom: 0.5pt solid ; " align="left" valign="top"><p>The JMS client id for this listener container. Needs to be specified when using
+  durable subscriptions.</p></td></tr><tr><td style="border-right: 0.5pt solid ; border-bottom: 0.5pt solid ; " align="left" valign="top"><p>acknowledge</p></td><td style="border-bottom: 0.5pt solid ; " align="left" valign="top"><p>The native JMS acknowledge mode: <code class="literal">auto</code>, <code class="literal">client</code>, <code class="literal">dups-ok</code> or <code class="literal">transacted</code>. A value
+  of <code class="literal">transacted</code> activates a locally transacted <code class="literal">Session</code>. As an alternative, specify
+  the <code class="literal">transaction-manager</code> attribute described below. Default is <code class="literal">auto</code>.</p></td></tr><tr><td style="border-right: 0.5pt solid ; border-bottom: 0.5pt solid ; " align="left" valign="top"><p>transaction-manager</p></td><td style="border-bottom: 0.5pt solid ; " align="left" valign="top"><p>A reference to a Spring <code class="literal">JtaTransactionManager</code> or a
+  <code class="literal">javax.transaction.TransactionManager</code> for kicking off an XA transaction for each
+  incoming message. If not specified, native acknowledging will be used (see the
+  "acknowledge" attribute).</p></td></tr><tr><td style="border-right: 0.5pt solid ; border-bottom: 0.5pt solid ; " align="left" valign="top"><p>concurrency</p></td><td style="border-bottom: 0.5pt solid ; " align="left" valign="top"><p>The number of concurrent sessions/consumers to start for each listener. Can either be
+  a simple number indicating the maximum number (e.g. "5") or a range indicating the
+  lower as well as the upper limit (e.g. "3-5"). Note that a specified minimum is just a
+  hint and will typically be ignored at runtime when using a JCA listener container.
+  Default is 1.</p></td></tr><tr><td style="border-right: 0.5pt solid ; " align="left" valign="top"><p>prefetch</p></td><td style="" align="left" valign="top"><p>The maximum number of messages to load into a single session. Note that raising this
+  number might lead to starvation of concurrent consumers!</p></td></tr></tbody></table>
+</div></div><br class="table-break">
+
+</div>
+</div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ejb.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="spring-integration.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="jmx.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">22.&nbsp;Enterprise JavaBeans (EJB) integration&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;24.&nbsp;JMX</td></tr></table></div></body></html>
